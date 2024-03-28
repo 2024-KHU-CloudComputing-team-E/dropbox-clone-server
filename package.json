@@ -1,0 +1,11 @@
+{
+  "name": "dropbox-clone-server",
+  "version": "1.0.0",
+  "description": "KHU 2024 Spring Cloud Computing Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

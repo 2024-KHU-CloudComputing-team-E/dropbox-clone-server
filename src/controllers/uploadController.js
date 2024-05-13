@@ -26,8 +26,8 @@ const s3 = new S3Client({
   credentials : {
       accessKeyId : '생성한 버킷의 액세스 키',
       secretAccessKey : '시크릿 액세스 키'
-      //이 key 관련 부분은 여기다가 key를 처음에 작성했었는데(...) 보안상의 이유로 github에 push가 거부되어서 일단 지웠습니다.
-      //찾아보니 env파일과 dotenv 패키지를 통해 키를 환경 변수화해서 외부에서 끌어올 수 있다고 하는데 조금 더 공부해보고 빨리 보완하겠습니다.
+      //accessKeyId와 secretAccessKey는 처음에 여기다가 key를 그대로 작성했었는데(...) 아무래도 key를 github에 공개하기는 좀 그래서 일단 지웠습니다.
+      //찾아보니 env파일과 dotenv 패키지를 통해 키를 환경 변수화해서 외부에서 가져올 수 있다고 하는데 조금 더 공부해보고 빨리 보완하겠습니다.
   }
 })
 

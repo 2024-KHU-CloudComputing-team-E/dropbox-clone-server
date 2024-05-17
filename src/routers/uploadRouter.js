@@ -3,6 +3,10 @@ import uploadController from "../controllers/uploadController.js";
 
 const uploadRouter = express.Router();
 
-uploadRouter.post('/upload_file', uploadController.upload.single('file1'), uploadController.uploadFile);
+uploadRouter.post(
+  "/file",
+  uploadController.upload.single("file"),
+  uploadController.uploadFile
+);
 
 export default uploadRouter;

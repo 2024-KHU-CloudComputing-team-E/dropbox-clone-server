@@ -1,5 +1,5 @@
-import express from "express";
-import exampleRouter from "./routers/exampleRouter";
+const express = require("express");
+const exampleRouter = require("./routers/exampleRouter");
 
 const app = express();
 
@@ -8,4 +8,4 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/", exampleRouter);
 
-export default app;
+module.exports = app;

@@ -10,4 +10,4 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/", exampleRouter);
 app.use("/api/uploadfile", uploadRouter);
 
-export default app;
+module.exports = app;

@@ -11,4 +11,4 @@ exampleRouter.get("/api/example2", exampleController);
 /* 파일 분할을 위해 express Router를 사용하면 좋을것 같습니다. */
 /* 가독성 및 코드 분할을 위해 컨트롤러를 작성해서 임포트 하는 식으로 하는게 좋을 것 같습니다. */
 
-export default exampleRouter;
+module.exports = exampleRouter;

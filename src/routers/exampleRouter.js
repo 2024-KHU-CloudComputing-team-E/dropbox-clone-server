@@ -1,9 +1,9 @@
-const express = require("express");
-const exampleController = require("../controllers/exampleController");
+import express from "express";
+import exampleController from "../controllers/exampleController.js";
 
 const exampleRouter = express.Router();
 
-exampleRouter.post("/api/example1", (req, res) => {
+exampleRouter.get("/api/example1", (req, res) => {
   res.send("이것은 예시 라우터입니다");
 });
 

@@ -1,16 +1,30 @@
 import google from "../env/google.js";
+import axios from "axios";
 
 const getToken = async (code) => {
   try {
-    const tokenApi = await axios.post(
-      `https://oauth2.googleapis.com/token?code=${code}&client_id=${google.CLIENT_ID}&client_secret=${google.CLIENT_SECRET}&redirect_uri=${google.REDIRECT_URL}&grant_type=authorization_code`
-    );
-    const accessToken = tokenApi.data.access_token;
-    console.log(accessToken);
-    return accessToken;
+    const response = await axios.post(google.GOOGLE_TOKEN_URL, {
+      // x-www-form-urlencoded(body)
+      code,
+      client_id: google.GOOGLE_CLIENT_ID,
+      client_secret: google.GOOGLE_CLIENT_SECRET,
+      redirect_uri: google.GOOGLE_REDIRECT_URI,
+      grant_type: "authorization_code",
+    });
+    return response.data;
   } catch (err) {
     return err;
   }
 };
 
-export default { getToken };
+const getUserinfoByToken = async (token) => {
+  const userinfo = await axios.get(google.GOOGLE_USERINFO_URL, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return userinfo.data;
+};
+
+export default { getToken, getUserinfoByToken };

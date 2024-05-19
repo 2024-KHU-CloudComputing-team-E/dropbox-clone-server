@@ -13,12 +13,14 @@ googleRouter.get("/google", (req, res) => {
   res.redirect(url);
 });
 
-googleRouter.get("/google/redirect", (req, res) => {
+googleRouter.get("/google/redirect", async (req, res) => {
   const { code } = req.query;
-  if (req.query) {
-    googleController.getToken(code);
-  }
   console.log(`code: ${code}`);
+  const token = await googleController.getToken(code);
+  const userinfo = await googleController.getUserinfoByToken(
+    token.access_token
+  );
+  console.log(userinfo);
   res.send("ok");
 });
 

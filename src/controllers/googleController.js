@@ -1,6 +1,7 @@
 import google from "../env/google.js";
 import User from "../schemas/test.js";
 import axios from "axios";
+import jwt from "jsonwebtoken";
 
 const getToken = async (code) => {
   try {
@@ -36,6 +37,18 @@ const verifyUser = async (userinfo) => {
   if (!data) {
     user.save();
   }
+  const payload = {
+    user: {
+      id: userinfo.id,
+    },
+  };
+  const token = jwt.sign(
+    payload, // 변환할 데이터
+    "jwtSecret", // secret key 값
+    { expiresIn: "1h" } // token의 유효시간
+  );
+  user.token = token;
+  return token;
 };
 
 export default { getToken, getUserinfoByToken, verifyUser };

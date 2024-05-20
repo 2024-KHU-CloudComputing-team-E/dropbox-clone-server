@@ -27,4 +27,9 @@ const getUserinfoByToken = async (token) => {
   return userinfo.data;
 };
 
-export default { getToken, getUserinfoByToken };
+const verifyUser = async (user) => {
+  if (user.email == "zackinthebox@khu.ac.kr") return true;
+  else return false;
+};
+
+export default { getToken, getUserinfoByToken, verifyUser };

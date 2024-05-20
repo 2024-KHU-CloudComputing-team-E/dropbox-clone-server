@@ -1,7 +1,6 @@
 import express from "express";
 import google from "../env/google.js";
 import googleController from "../controllers/googleController.js";
-
 const googleRouter = express.Router();
 
 googleRouter.get("/google", (req, res) => {
@@ -15,13 +14,13 @@ googleRouter.get("/google", (req, res) => {
 
 googleRouter.get("/google/redirect", async (req, res) => {
   const { code } = req.query;
-  console.log(`code: ${code}`);
   const token = await googleController.getToken(code);
   const userinfo = await googleController.getUserinfoByToken(
     token.access_token
   );
-  console.log(userinfo);
-  res.send("ok");
+  const result = await googleController.verifyUser(userinfo);
+  console.log(result);
+  res.send(result);
 });
 
 export default googleRouter;

@@ -1,6 +1,8 @@
 import express from "express";
 import google from "../env/google.js";
 import googleController from "../controllers/googleController.js";
+import db from "../db/connect.js";
+
 const googleRouter = express.Router();
 
 googleRouter.get("/google", (req, res) => {

@@ -1,4 +1,5 @@
 import google from "../env/google.js";
+import User from "../schemas/test.js";
 import axios from "axios";
 
 const getToken = async (code) => {
@@ -27,9 +28,14 @@ const getUserinfoByToken = async (token) => {
   return userinfo.data;
 };
 
-const verifyUser = async (user) => {
-  if (user.email == "zackinthebox@khu.ac.kr") return true;
-  else return false;
+const verifyUser = async (userinfo) => {
+  const user = new User(userinfo);
+  const data = await User.findOne({
+    email: userinfo.email,
+  });
+  if (!data) {
+    user.save();
+  }
 };
 
 export default { getToken, getUserinfoByToken, verifyUser };

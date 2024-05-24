@@ -2,6 +2,7 @@
 import express from "express";
 import cors from "cors";
 import uploadRouter from "./routers/uploadRouter.js";
+import downloadRouter from "./routers/downloadRouter.js";
 import connectDB from "./config/mongodb.js";
 
 const app = express();

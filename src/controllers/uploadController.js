@@ -1,40 +1,13 @@
-//DB 설정
-//제가 따로 몽고디비 파서 테스트 진행했습니다.
-import { MongoClient } from "mongodb";
 import dotenv from "dotenv";
 
 dotenv.config();
 
-//db url연결하는 부분 따로 config폴더에 뺄 예정
-let db;
-const url = process.env.MONGO_URI;
-new MongoClient(url)
-  .connect()
-  .then((client) => {
-    console.log("DB연결성공"); // DB 연결 성공 여부 확인 메시지
-    db = client.db("forum");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
 //s3 초기 설정
 
 import path from "path";
-import { S3Client } from "@aws-sdk/client-s3";
 import multer from "multer";
 import multerS3 from "multer-s3";
-
-//제가 따로 s3 파서 테스트 진행했습니다. 프리티어 아닌 줄 알았는데 프리티어여서...
-const s3 = new S3Client({
-  region: "us-east-1",
-  credentials: {
-    accessKeyId: process.env.S3ACCESSKEYID,
-    secretAccessKey: process.env.S3_SECRETACCESSKEY,
-    //accessKeyId와 secretAccessKey는 처음에 여기다가 key를 그대로 작성했었는데(...) 아무래도 key를 github에 공개하기는 좀 그래서 일단 지웠습니다.
-    //찾아보니 env파일과 dotenv 패키지를 통해 키를 환경 변수화해서 외부에서 가져올 수 있다고 하는데 조금 더 공부해보고 빨리 보완하겠습니다.
-  },
-});
+import s3 from "../config/s3.js";
 
 //s3에 원본파일 저장
 const upload = multer({

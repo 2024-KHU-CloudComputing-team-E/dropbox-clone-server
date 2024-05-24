@@ -20,5 +20,6 @@ connectDB()
   });
 
 app.use("/api/upload", uploadRouter);
+app.use("/api/downloadfile", downloadRouter);
 
 export default app;

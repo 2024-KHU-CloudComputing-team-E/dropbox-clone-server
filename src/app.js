@@ -3,6 +3,8 @@ import express from "express";
 import cors from "cors";
 import uploadRouter from "./routers/uploadRouter.js";
 import downloadRouter from "./routers/downloadRouter.js";
+import gooogleRouter from "./routers/googleRouter.js";
+import logoutRouter from "./routers/logoutRouter.js";
 import connectDB from "./config/mongodb.js";
 
 const app = express();
@@ -22,5 +24,7 @@ connectDB()
 
 app.use("/api/upload", uploadRouter);
 app.use("/api/downloadfile", downloadRouter);
+app.use("/api/login", gooogleRouter);
+app.use("/api/logout", logoutRouter);
 
 export default app;

@@ -17,6 +17,9 @@ commentRouter.post("/update", auth, async (req, res) => {
   res.send("ok");
 });
 
-commentRouter.post("/delete", () => {});
+commentRouter.post("/delete", auth, async (req, res) => {
+  commentController.deleteComment(req.body.id);
+  res.send("ok");
+});
 
 export default commentRouter;

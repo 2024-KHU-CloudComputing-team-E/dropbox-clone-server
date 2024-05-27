@@ -16,8 +16,9 @@ const updateComment = async (id, content) => {
   return;
 };
 
-const deleteComment = async (data) => {
-  await comments.deleteOne(data);
+const deleteComment = async (id) => {
+  const objectId = new ObjectId(id);
+  await comments.deleteOne({ _id: objectId });
   return;
 };
 

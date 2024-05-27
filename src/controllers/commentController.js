@@ -1,12 +1,18 @@
 import comments from "../schemas/testComment.js";
+import { Types } from "mongoose";
+const ObjectId = Types.ObjectId;
 
 const postComment = async (data) => {
   await comments.create(data);
   return;
 };
 
-const updateComment = async (data) => {
-  comments.updateOne({ id: id }, data);
+const updateComment = async (id, content) => {
+  const objectId = new ObjectId(id);
+  await comments.findOneAndUpdate(
+    { _id: objectId },
+    { $set: { content: content } }
+  );
   return;
 };
 

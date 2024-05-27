@@ -1,17 +1,17 @@
-import User from "../schemas/test.js";
+import comments from "../schemas/testComment.js";
 
 const postComment = async (data) => {
-  await User.create(data);
+  await comments.create(data);
   return;
 };
 
 const updateComment = async (data) => {
-  User.updateOne({ id: id }, data);
+  comments.updateOne({ id: id }, data);
   return;
 };
 
 const deleteComment = async (data) => {
-  await User.deleteOne(data);
+  await comments.deleteOne(data);
   return;
 };
 

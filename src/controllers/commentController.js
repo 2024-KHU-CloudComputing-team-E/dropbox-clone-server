@@ -1,17 +1,7 @@
 import User from "../schemas/test.js";
 
-const getComment = async () => {
-  const comment = await User.find({
-    email: email,
-  });
-  if (!data) {
-    return;
-  }
-  return comment;
-};
-
 const postComment = async (data) => {
-  User.insertOne(data);
+  await User.create(data);
   return;
 };
 
@@ -25,4 +15,4 @@ const deleteComment = async (data) => {
   return;
 };
 
-export default { getComment, postComment, updateComment, deleteComment };
+export default { postComment, updateComment, deleteComment };

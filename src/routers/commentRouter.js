@@ -1,11 +1,15 @@
 import express from "express";
-import commentController from "../controllers/commentController";
-import auth from "../middleware/auth";
+import commentController from "../controllers/commentController.js";
+import auth from "../middleware/auth.js";
+import cookieParser from "cookie-parser";
 
 const commentRouter = express.Router();
+commentRouter.use(cookieParser());
 
 commentRouter.post("/create", auth, async (req, res) => {
-  commentController();
+  const data = { author: req.user, content: req.body };
+  await commentController.postComment(data);
+  res.send(data);
 });
 
 commentRouter.get("/read", async () => {});

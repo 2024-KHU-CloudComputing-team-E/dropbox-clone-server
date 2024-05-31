@@ -1,9 +1,3 @@
-import dotenv from "dotenv";
-
-dotenv.config();
-
-//s3 초기 설정
-
 import path from "path";
 import multer from "multer";
 import multerS3 from "multer-s3";

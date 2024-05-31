@@ -5,12 +5,12 @@ import jwt from "jsonwebtoken";
 
 const getToken = async (code) => {
   try {
-    const response = await axios.post(google.GOOGLE_TOKEN_URL, {
+    const response = await axios.post(process.env.GOOGLE_TOKEN_URL, {
       // x-www-form-urlencoded(body)
       code,
-      client_id: google.GOOGLE_CLIENT_ID,
-      client_secret: google.GOOGLE_CLIENT_SECRET,
-      redirect_uri: google.GOOGLE_REDIRECT_URI,
+      client_id: process.env.GOOGLE_CLIENT_ID,
+      client_secret: process.env.GOOGLE_CLIENT_SECRET,
+      redirect_uri: process.env.GOOGLE_REDIRECT_URI,
       grant_type: "authorization_code",
     });
     return response.data;
@@ -19,6 +19,7 @@ const getToken = async (code) => {
   }
 };
 
+// 확인필요
 const getUserinfoByToken = async (token) => {
   const userinfo = await axios.get(google.GOOGLE_USERINFO_URL, {
     headers: {

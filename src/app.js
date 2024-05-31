@@ -3,7 +3,6 @@ import exampleRouter from "./routers/exampleRouter.js";
 import uploadRouter from "./routers/uploadRouter.js";
 import deleteRouter from "./routers/deleteRouter.js";
 
-
 const app = express();
 
 app.use(express.json());

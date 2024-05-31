@@ -7,15 +7,19 @@ const commentRouter = express.Router();
 commentRouter.use(cookieParser());
 
 commentRouter.post("/create", auth, async (req, res) => {
-  const data = { author: req.user, content: req.body };
+  const data = { author: req.user.id, content: req.body.content };
   await commentController.postComment(data);
   res.send(data);
 });
 
-commentRouter.get("/read", async () => {});
+commentRouter.post("/update", auth, async (req, res) => {
+  commentController.updateComment(req.body.id, req.body.content);
+  res.send("ok");
+});
 
-commentRouter.post("/update", async () => {});
-
-commentRouter.post("/delete", () => {});
+commentRouter.post("/delete", auth, async (req, res) => {
+  commentController.deleteComment(req.body.id);
+  res.send("ok");
+});
 
 export default commentRouter;

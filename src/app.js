@@ -6,6 +6,9 @@ import downloadRouter from "./routers/downloadRouter.js";
 import googleRouter from "./routers/googleRouter.js";
 import logoutRouter from "./routers/logoutRouter.js";
 //import memberRouter from "./routers/memberRouter.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 

@@ -1,9 +1,10 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
+
 //댓글에 대한 db 스키마
 const commentSchema = new mongoose.Schema({
     //댓글 작성자
     author:{
-        type : mongoose.Schema.Types.ObjecId,
+        type : mongoose.Schema.Types.ObjectId,
         ref : 'User',
         required:true
     },
@@ -24,4 +25,4 @@ const commentSchema = new mongoose.Schema({
     // }
 });
 
-module.exports = mongoose.model("Comment", commentSchema)
+export default mongoose.model("Comment", commentSchema)

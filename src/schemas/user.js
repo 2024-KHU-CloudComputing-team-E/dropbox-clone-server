@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 
 const userSchema = new mongoose.Schema({
     // 유저 몽고 고유 아이디
@@ -33,10 +33,10 @@ const userSchema = new mongoose.Schema({
         required:true
     },
     //팔로워
-    follower:[{
-        type:mongoose.Schema.Type.ObjectId,
-        ref:'Follower'
-    }]
+    // follower:[{
+    //     type:mongoose.Schema.Type.ObjectId,
+    //     ref:'Follower'
+    // }]
 });
 
-module.exports = mongoose.model("User", userSchema)
+export default mongoose.model("User", userSchema);

@@ -1,9 +1,9 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 
 const fileSchema = new mongoose.Schema({
     // 파일 소유자 : User의 id를 참조
     owner:{ 
-        type : mongoose.Schema.Types.ObjecId,
+        type : mongoose.Schema.Types.ObjectId,
         ref : 'User',
         required:true
     },
@@ -67,4 +67,5 @@ const fileSchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model("File", fileSchema)
+// module.exports = mongoose.model("File", fileSchema)
+export default mongoose.model('File', fileSchema);

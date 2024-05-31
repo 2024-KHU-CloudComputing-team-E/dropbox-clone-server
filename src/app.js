@@ -5,7 +5,7 @@ import commentRouter from "./routers/commentRouter.js";
 import downloadRouter from "./routers/downloadRouter.js";
 import googleRouter from "./routers/googleRouter.js";
 import logoutRouter from "./routers/logoutRouter.js";
-import memberRouter from "./routers/memberRouter.js";
+//import memberRouter from "./routers/memberRouter.js";
 
 const app = express();
 
@@ -18,6 +18,6 @@ app.use("/api/comment", commentRouter);
 app.use("/api/downloadfile", downloadRouter);
 app.use("/api/login", googleRouter);
 app.use("/api/logout", logoutRouter);
-app.use("/api/member", memberRouter);
+//app.use("/api/member", memberRouter);
 
-module.exports = app;
+export default app;

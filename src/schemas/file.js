@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const file_schema = new mongoose.Schema({
+const fileSchema = new mongoose.Schema({
     // 파일 소유자 : User의 id를 참조
     owner:{ 
         type : mongoose.Schema.Types.ObjecId,
@@ -33,7 +33,7 @@ const file_schema = new mongoose.Schema({
         default : Date.now
     },
     // 파일 수정(업데이트) 일자
-    updateAt:{
+    updatedAt:{
         type: Date,
         default : Date.now
     },
@@ -49,7 +49,22 @@ const file_schema = new mongoose.Schema({
     // 파일 삭제일자
     deletedAt:{
         type:Date
+    },
+    //댓글 참조
+    comments:[{
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'Comment'
+    }],
+    context:{
+        type:String
+    },
+    fileUrl:{
+        type:String,
+        required:true
+    },
+    imgUrl:{
+        type:String
     }
 });
 
-module.exports = mongoose.model("File", file_schema)
+module.exports = mongoose.model("File", fileSchema)

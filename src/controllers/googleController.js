@@ -1,4 +1,3 @@
-import google from "../env/google.js";
 import User from "../schemas/test.js";
 import axios from "axios";
 import jwt from "jsonwebtoken";
@@ -21,7 +20,7 @@ const getToken = async (code) => {
 
 // 확인필요
 const getUserinfoByToken = async (token) => {
-  const userinfo = await axios.get(google.GOOGLE_USERINFO_URL, {
+  const userinfo = await axios.get(process.env.GOOGLE_USERINFO_URL, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

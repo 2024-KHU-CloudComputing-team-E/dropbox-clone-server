@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb";
 import { DeleteObjectCommand } from "@aws-sdk/client-s3";
-import connectDB from "../config/mongodb";
+import connectDB from "../config/mongodb.js";
 
 // 데이터베이스 연결 객체 가져오기
 const db = await connectDB();

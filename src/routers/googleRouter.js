@@ -16,8 +16,8 @@ googleRouter.get("/google/redirect", async (req, res) => {
   const userinfo = await googleController.getUserinfoByToken(
     token.access_token
   );
-  const jwt = await googleController.verifyUser(userinfo);
-  res.cookie("x_auth", jwt).send("ok");
+  const user = await googleController.verifyUser(userinfo);
+  res.cookie("x_auth", user.token).redirect(`/${user.userId}`);
 });
 
 export default googleRouter;

@@ -1,3 +1,5 @@
+import mongoose from "../config/mongoose.js";
+
 const userSchema = new mongoose.Schema({
   userId: {
     type: Number,
@@ -21,6 +23,9 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  token: { type: String },
 });
 
-module.exports = mongoose.model("Defaults", userSchema);
+const User = mongoose.model("User", userSchema);
+
+export default User;

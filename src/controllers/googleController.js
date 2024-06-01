@@ -1,4 +1,4 @@
-import User from "../schemas/test.js";
+import User from "../schemas/user.js";
 import axios from "axios";
 import jwt from "jsonwebtoken";
 
@@ -42,21 +42,27 @@ const getUserinfoByToken = async (token) => {
       Authorization: `Bearer ${token}`,
     },
   });
+  const customized = {
+    userId: userinfo.data.id,
+    provider: "temp",
+    email: userinfo.data.email,
+    userName: userinfo.data.name,
+  };
 
-  return userinfo.data;
+  return customized;
 };
 
 const verifyUser = async (userinfo) => {
   const user = new User(userinfo);
   const data = await User.findOne({
-    email: userinfo.email,
+    userId: userinfo.userId,
   });
   if (!data) {
     user.save();
   }
   const payload = {
     user: {
-      id: userinfo.id,
+      userId: userinfo.userId,
     },
   };
   const token = jwt.sign(
@@ -65,7 +71,8 @@ const verifyUser = async (userinfo) => {
     { expiresIn: "1h" } // token의 유효시간
   );
   user.token = token;
-  return token;
+  console.log(user);
+  return user;
 };
 
 export default { getGoogleAuthURL, getToken, getUserinfoByToken, verifyUser };

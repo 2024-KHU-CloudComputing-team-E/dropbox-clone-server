@@ -1,17 +1,20 @@
 import express from "express";
 import dotenv from "dotenv";
-import connectDB from "./config/mongodb.js";
+
+import cors from "cors";
+import connectDB from "./config/mongoClient.js";
 
 const app = express();
 
+dotenv.config();
+
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-dotenv.config();
-
 const startServer = async () => {
   try {
-    // const db = await connectDB();
+    const db = connectDB;
 
     const PORT = process.env.PORT || 3000;
 

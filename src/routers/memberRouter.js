@@ -7,14 +7,16 @@ const memberRouter = express.Router();
 memberRouter.use(cookieParser());
 
 memberRouter.get("/logined", auth, async (req, res) => {
-  const object = await memberController.getUserinfoWithToken(req.user.token);
-  if (!object) {
-    res.send("로그인이 안되어있음");
-  } else {
-    res.send(object);
-  }
+  res.send(req.user);
 });
 
-memberRouter.get("/", (req, res) => {});
+memberRouter.get("/:id", async (req, res) => {
+  const userinfo = await memberController.getUserinfoById(req.params.id);
+  if (!userinfo) {
+    res.send({ msg: "그러한 유저가 없습니다~~~" });
+  } else {
+    res.send(userinfo);
+  }
+});
 
 export default memberRouter;

@@ -1,13 +1,17 @@
 import User from "../schemas/user.js";
 
-const getUserinfoWithToken = async (token) => {
-  const data = await User.findOne({
-    token: token,
-  });
-  if (!data) {
-    return;
+const getUserinfoById = async (id) => {
+  try {
+    const data = await User.findOne({
+      userId: id,
+    });
+    if (!data) {
+      return;
+    }
+    return data;
+  } catch (err) {
+    return err;
   }
-  return data;
 };
 
-export default { getUserinfoWithToken };
+export default { getUserinfoById };

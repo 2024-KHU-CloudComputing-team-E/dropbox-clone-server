@@ -1,8 +1,8 @@
-import User from "../schemas/test.js";
+import User from "../schemas/user.js";
 
-const getUserinfo = async (email) => {
+const getUserinfoWithToken = async (token) => {
   const data = await User.findOne({
-    email: email,
+    token: token,
   });
   if (!data) {
     return;
@@ -10,4 +10,4 @@ const getUserinfo = async (email) => {
   return data;
 };
 
-export default { getUserinfo };
+export default { getUserinfoWithToken };

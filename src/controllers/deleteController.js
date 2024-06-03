@@ -1,11 +1,11 @@
 import { ObjectId } from "mongodb";
 import { DeleteObjectCommand } from "@aws-sdk/client-s3";
-import connectDB from "../config/mongodb";
+import connectDB from "../config/mongoClient.js";
 
 // 데이터베이스 연결 객체 가져오기
 const db = await connectDB();
 // collection 선택
-const collection = db.collection("post");
+const collection = db.collection("files");
 
 // MongoDB에서 isDeleted를 False -> True로 업데이트하는 함수
 async function updateIsDeleted(filename) {

@@ -1,4 +1,4 @@
-import User from "../schemas/test.js";
+import User from "../schemas/user.js";
 import jwt from "jsonwebtoken";
 
 let auth = async (req, res, next) => {

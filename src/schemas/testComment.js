@@ -1,4 +1,4 @@
-import mongoose from "../db/connect.js";
+import mongoose from "../config/mongoose.js";
 
 const testCommentSchema = mongoose.Schema({
   author: { type: String },

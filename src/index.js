@@ -6,6 +6,7 @@ import deleteRouter from "./routers/deleteRouter.js";
 import commentRouter from "./routers/commentRouter.js";
 import googleRouter from "./routers/googleRouter.js";
 import logoutRouter from "./routers/logoutRouter.js";
+import followFollowingRouter from "./routers/followFollowingRouter.js";
 //import memberRouter from "./routers/memberRouter.js";
 
 const __dirname = path.resolve();
@@ -16,6 +17,7 @@ app.use("/api/comment", commentRouter);
 app.use("/api/login", googleRouter);
 app.use("/api/logout", logoutRouter);
 //app.use("/api/member", memberRouter);
+app.use("/api/fofw", followFollowingRouter);
 
 // app.get("/", (req, res) => {
 //   // res.send(`<a href="/api/login/google'>LogIn</a>

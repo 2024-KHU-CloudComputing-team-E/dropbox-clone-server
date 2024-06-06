@@ -17,7 +17,7 @@ app.use("/api/comment", commentRouter);
 app.use("/api/login", googleRouter);
 app.use("/api/logout", logoutRouter);
 //app.use("/api/member", memberRouter);
-app.use("/api/fofw", followFollowingRouter);
+app.use("/api/ff", followFollowingRouter);
 
 // app.get("/", (req, res) => {
 //   // res.send(`<a href="/api/login/google'>LogIn</a>

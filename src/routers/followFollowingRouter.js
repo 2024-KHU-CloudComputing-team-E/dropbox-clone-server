@@ -4,7 +4,7 @@ const followFollowingRouter = express.Router();
 
 followFollowingRouter.post('/follow', follow);
 followFollowingRouter.post('/unfollow', unfollow);
-followFollowingRouter.post('/followingCount', followingCount);
-followFollowingRouter.post('/followerCount', followerCount);
+followFollowingRouter.get('/followingCount', followingCount);
+followFollowingRouter.get('/followerCount', followerCount);
 
 export default followFollowingRouter;

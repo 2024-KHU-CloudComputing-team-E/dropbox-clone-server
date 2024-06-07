@@ -6,7 +6,7 @@ import deleteRouter from "./routers/deleteRouter.js";
 import commentRouter from "./routers/commentRouter.js";
 import googleRouter from "./routers/googleRouter.js";
 import logoutRouter from "./routers/logoutRouter.js";
-import memberRouter from "./routers/memberRouter.js";
+import followFollowingRouter from "./routers/followFollowingRouter.js";
 //import memberRouter from "./routers/memberRouter.js";
 
 const __dirname = path.resolve();

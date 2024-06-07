@@ -7,7 +7,7 @@ const commentRouter = express.Router();
 commentRouter.use(cookieParser());
 
 commentRouter.post("/", auth, async (req, res) => {
-  const data = { author: req.user.id, content: req.body.content };
+  const data = { author: req.user.id, comment: req.body.comment };
   await commentController.postComment(data);
   res.send(data);
 });

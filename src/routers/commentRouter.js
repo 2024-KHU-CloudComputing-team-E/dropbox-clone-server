@@ -6,7 +6,7 @@ import cookieParser from "cookie-parser";
 const commentRouter = express.Router();
 commentRouter.use(cookieParser());
 
-commentRouter.post("/create", auth, async (req, res) => {
+commentRouter.post("/", auth, async (req, res) => {
   const data = { author: req.user.id, content: req.body.content };
   await commentController.postComment(data);
   res.send(data);

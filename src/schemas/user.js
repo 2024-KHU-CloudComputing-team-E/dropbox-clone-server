@@ -24,6 +24,8 @@ const userSchema = new mongoose.Schema({
     default: Date.now,
   },
   token: { type: String },
+  followers: { type: [Number] },
+  followings: { type: [Number] },
 });
 
 const User = mongoose.model("User", userSchema);

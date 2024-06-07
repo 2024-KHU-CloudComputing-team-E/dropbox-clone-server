@@ -16,6 +16,7 @@ app.use("/api/deletefile", deleteRouter);
 app.use("/api/comment", commentRouter);
 app.use("/api/login", googleRouter);
 app.use("/api/logout", logoutRouter);
+app.use("/api/user", memberRouter);
 //app.use("/api/member", memberRouter);
 app.use("/api/ff", followFollowingRouter);
 

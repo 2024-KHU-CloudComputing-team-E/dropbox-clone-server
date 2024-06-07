@@ -1,13 +1,17 @@
-import User from "../schemas/test.js";
+import User from "../schemas/user.js";
 
-const getUserinfo = async (email) => {
-  const data = await User.findOne({
-    email: email,
-  });
-  if (!data) {
-    return;
+const getUserinfoById = async (id) => {
+  try {
+    const data = await User.findOne({
+      userId: id,
+    });
+    if (!data) {
+      return;
+    }
+    return data;
+  } catch (err) {
+    return err;
   }
-  return data;
 };
 
-export default { getUserinfo };
+export default { getUserinfoById };

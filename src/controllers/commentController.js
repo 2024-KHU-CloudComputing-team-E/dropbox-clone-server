@@ -1,4 +1,4 @@
-import comments from "../schemas/testComment.js";
+import comments from "../schemas/comment.js";
 import { Types } from "mongoose";
 const ObjectId = Types.ObjectId;
 

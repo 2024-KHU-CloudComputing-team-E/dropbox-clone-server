@@ -12,13 +12,13 @@ commentRouter.post("/", auth, async (req, res) => {
   res.send(data);
 });
 
-commentRouter.post("/update", auth, async (req, res) => {
-  commentController.updateComment(req.body.id, req.body.content);
+commentRouter.patch("/", auth, async (req, res) => {
+  await commentController.updateComment(req.body.id, req.body.content);
   res.send("ok");
 });
 
-commentRouter.post("/delete", auth, async (req, res) => {
-  commentController.deleteComment(req.body.id);
+commentRouter.delete("/", auth, async (req, res) => {
+  await commentController.deleteComment(req.body.id);
   res.send("ok");
 });
 

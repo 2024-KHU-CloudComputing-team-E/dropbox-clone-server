@@ -86,8 +86,8 @@ const getUserImages = async (req, res) => {
     // 필터링된 객체 목록에서 URL과 기타 정보를 생성합니다.
     const images = filteredContents
       .slice(startIndex, endIndex)
-      .map((item, index) => {
-        const file = files.find((file) => file.filename === item.Key);
+      .map(async (item, index) => {
+        const file = await files.find((file) => file.filename === item.Key);
         return {
           fileId: file._id,
           // filename은 객체의 키로 설정합니다.

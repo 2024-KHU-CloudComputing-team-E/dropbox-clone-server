@@ -73,6 +73,7 @@ const getUserImages = async (req, res) => {
 
     // MongoDB에서 가져온 파일 목록을 기준으로 S3 객체 목록을 필터링합니다.
     const validFilenames = files.map((file) => file.fileName);
+    const validFileId = files.map((file) => file._id);
     console.log("Valid Filenames:", validFilenames);
     const filteredContents = sortedContents.filter((item) =>
       validFilenames.includes(item.Key)
@@ -88,7 +89,7 @@ const getUserImages = async (req, res) => {
       .slice(startIndex, endIndex)
       .map((item, index) => {
         return {
-          fileId: item._id,
+          fileId: validFileId[startIndex + index],
           // filename은 객체의 키로 설정합니다.
           fileName: item.Key,
           imgUrl: d_s3.getSignedUrl("getObject", {

@@ -17,12 +17,12 @@ commentRouter.post("/", auth, async (req, res) => {
 });
 
 commentRouter.patch("/", auth, async (req, res) => {
-  await commentController.updateComment(req.body.fileId, req.body.content);
+  await commentController.updateComment(req.body.id, req.body.content);
   res.send("ok");
 });
 
 commentRouter.delete("/", auth, async (req, res) => {
-  await commentController.deleteComment(req.body.fileId);
+  await commentController.deleteComment(req.body.id);
   res.send("ok");
 });
 

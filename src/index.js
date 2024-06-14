@@ -10,6 +10,7 @@ import followFollowingRouter from "./routers/followFollowingRouter.js";
 import memberRouter from "./routers/memberRouter.js";
 import mainScrollRouter from "./routers/mainScrollRouter.js";
 import binScrollRouter from "./routers/binScrollRouter.js";
+import downloadRouter from "./routers/downloadRouter.js";
 
 const __dirname = path.resolve();
 

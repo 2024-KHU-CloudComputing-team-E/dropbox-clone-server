@@ -16,7 +16,7 @@ const db = await connectDB();
 const collection = db.collection("files");
 
 const getUserImages = async (req, res) => {
-    const { userId, page = 0, sortKey = 'date', sortOrder = 'asc' } = req.query;
+    const { userId, page = 0, sortKey = 'date', sortOrder = 'desc' } = req.query;
 
     try {
         const params = {

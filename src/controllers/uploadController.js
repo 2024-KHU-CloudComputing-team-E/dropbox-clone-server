@@ -28,7 +28,7 @@ const uploadController = {
     try {
       // 데이터베이스에 파일 정보를 저장
       await db.collection("files").insertOne({
-        name:
+        fileName:
           path.basename(
             req.file.originalname,
             path.extname(req.file.originalname)

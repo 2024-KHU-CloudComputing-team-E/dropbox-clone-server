@@ -17,7 +17,7 @@ const collection = db.collection("files");
 
 const getUserImages = async (req, res) => {
   const { userId, page = 0, sortKey = "date", sortOrder = "desc" } = req.query;
-  console.log(req.query);
+
   try {
     const params = {
       Bucket: BUCKET_NAME, // 환경 변수에서 가져온 S3 버킷 이름을 지정합니다.

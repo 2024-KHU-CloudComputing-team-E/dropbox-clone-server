@@ -13,7 +13,7 @@ const d_s3 = new AWS.S3({ accessKeyId: ID, secretAccessKey: SECRET });
 const ITEMS_PER_PAGE = 10; // 페이지당 항목 수를 정의합니다.
 
 const db = await connectDB();
-const collection = db.collection("post");
+const collection = db.collection("files");
 
 const getUserImages = async (req, res) => {
     const { userId, page = 0, sortKey = 'date', sortOrder = 'asc' } = req.query;

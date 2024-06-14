@@ -88,7 +88,7 @@ const getUserImages = async (req, res) => {
       .slice(startIndex, endIndex)
       .map((item, index) => {
         return {
-          fileId: page * 10 + index,
+          fileId: item._id,
           // filename은 객체의 키로 설정합니다.
           fileName: item.Key,
           imgUrl: d_s3.getSignedUrl("getObject", {

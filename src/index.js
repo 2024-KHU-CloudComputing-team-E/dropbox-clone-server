@@ -22,6 +22,7 @@ app.use("/api/user", memberRouter);
 app.use("/api/ff", followFollowingRouter);
 app.use("/api/files", mainScrollRouter);
 app.use("/api/binFiles", binScrollRouter);
+app.use("/api/downloadFile", downloadRouter);
 
 // app.get("/", (req, res) => {
 //   // res.send(`<a href="/api/login/google'>LogIn</a>

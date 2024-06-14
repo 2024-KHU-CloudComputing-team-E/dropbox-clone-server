@@ -33,6 +33,11 @@ const uploadController = {
             req.file.originalname,
             path.extname(req.file.originalname)
           ) /* + "_" + Date.now()*/ + path.extname(req.file.originalname),
+        name:
+          path.basename(
+            req.file.originalname,
+            path.extname(req.file.originalname)
+          ) /* + "_" + Date.now()*/ + path.extname(req.file.originalname),
         size: req.file.size,
         owner: req.user.userId,
         type: path.extname(req.file.originalname),

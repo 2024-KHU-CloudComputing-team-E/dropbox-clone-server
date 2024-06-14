@@ -90,7 +90,7 @@ const getUserImages = async (req, res) => {
         return {
           fileId: page * 10 + index,
           // filename은 객체의 키로 설정합니다.
-          filename: item.Key,
+          fileName: item.Key,
           imgUrl: d_s3.getSignedUrl("getObject", {
             Bucket: params.Bucket,
             Key: item.Key,

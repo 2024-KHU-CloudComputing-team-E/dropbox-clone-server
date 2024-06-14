@@ -28,7 +28,7 @@ const uploadController = {
     try {
       // 데이터베이스에 파일 정보를 저장
       await db.collection("files").insertOne({
-        name:
+        fileName:
           path.basename(
             req.file.originalname,
             path.extname(req.file.originalname)
@@ -38,6 +38,7 @@ const uploadController = {
         type: path.extname(req.file.originalname),
         url: req.file.location,
         createdAt: new Date(),
+        isDeleted: false,
         etag: req.file.etag, // ETag 정보를 DB에 저장, FileID대신에 넣었습니다.
         //DB에 파일 이름(name), size, 파일 확장자(type), createdAt(생성 시간), 파일 링크(url)(혹시나 다운로드 구현할 때 필요할까봐 일단 만들어뒀습니다.) 우선 DB에 올리겠습니다.
       });

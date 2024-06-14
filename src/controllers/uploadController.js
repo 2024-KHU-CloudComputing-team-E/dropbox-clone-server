@@ -34,6 +34,7 @@ const uploadController = {
             path.extname(req.file.originalname)
           ) /* + "_" + Date.now()*/ + path.extname(req.file.originalname),
         size: req.file.size,
+        owner: req.user.id,
         type: path.extname(req.file.originalname),
         url: req.file.location,
         createdAt: new Date(),

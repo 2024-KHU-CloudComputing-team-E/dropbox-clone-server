@@ -72,7 +72,7 @@ const getUserImages = async (req, res) => {
     console.log("MongoDB Files:", files);
 
     // MongoDB에서 가져온 파일 목록을 기준으로 S3 객체 목록을 필터링합니다.
-    const validFilenames = files.map((file) => file.filename);
+    const validFilenames = files.map((file) => file.fileName);
     console.log("Valid Filenames:", validFilenames);
     const filteredContents = sortedContents.filter((item) =>
       validFilenames.includes(item.Key)

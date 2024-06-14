@@ -67,7 +67,7 @@ const getUserImages = async (req, res) => {
         owner: Number(userId),
         isDeleted: false,
       })
-      .project({ filename: 1 })
+      .project({ fileName: 1 })
       .toArray();
     console.log("MongoDB Files:", files);
 

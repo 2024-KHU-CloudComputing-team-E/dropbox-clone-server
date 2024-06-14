@@ -67,7 +67,7 @@ const getUserImages = async (req, res) => {
         owner: Number(userId),
         isDeleted: false,
       })
-      .project({ fileName: 1 })
+      .project({ fileName: 1, _id: 1 })
       .toArray();
     console.log("MongoDB Files:", files);
 
@@ -86,10 +86,9 @@ const getUserImages = async (req, res) => {
     // 필터링된 객체 목록에서 URL과 기타 정보를 생성합니다.
     const images = filteredContents
       .slice(startIndex, endIndex)
-      .map(async (item, index) => {
-        const file = await files.find((file) => file.filename === item.Key);
+      .map((item, index) => {
         return {
-          fileId: file._id,
+          fileId: item._id,
           // filename은 객체의 키로 설정합니다.
           fileName: item.Key,
           imgUrl: d_s3.getSignedUrl("getObject", {

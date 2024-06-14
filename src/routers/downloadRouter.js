@@ -10,4 +10,4 @@ downloadRouter.get("/", async (req, res) => {
   console.log(req.query);
 });
 
-export default downloadRouterRouter;
+export default downloadRouter;

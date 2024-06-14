@@ -8,6 +8,8 @@ import googleRouter from "./routers/googleRouter.js";
 import logoutRouter from "./routers/logoutRouter.js";
 import followFollowingRouter from "./routers/followFollowingRouter.js";
 import memberRouter from "./routers/memberRouter.js";
+import mainScrollRouter from "./routers/mainScrollRouter.js";
+import binScrollRouter from "./routers/binScrollRouter.js";
 
 const __dirname = path.resolve();
 
@@ -18,6 +20,8 @@ app.use("/api/login", googleRouter);
 app.use("/api/logout", logoutRouter);
 app.use("/api/user", memberRouter);
 app.use("/api/ff", followFollowingRouter);
+app.use("/api/files", mainScrollRouter);
+app.use("/api/binFiles", binScrollRouter);
 
 // app.get("/", (req, res) => {
 //   // res.send(`<a href="/api/login/google'>LogIn</a>

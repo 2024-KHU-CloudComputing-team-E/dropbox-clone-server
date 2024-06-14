@@ -7,7 +7,7 @@ import s3 from "../config/s3.js";
 const upload = multer({
   storage: multerS3({
     s3: s3,
-    bucket: "teststorage36",
+    bucket: process.env.S3_BUCKETNAME,
     key: function (req, file, cb) {
       const ext = path.extname(file.originalname); // 파일 확장자
       const baseName = path.basename(file.originalname, ext); // 원래 파일 이름
@@ -24,7 +24,7 @@ const uploadController = {
     console.log(req.file);
     try {
       // 데이터베이스에 파일 정보를 저장
-      await db.collection("post").insertOne({
+      await db.collection("files").insertOne({
         filename:
           path.basename(
             req.file.originalname,

@@ -39,11 +39,15 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     const formData = new FormData();
     formData.append('file', fs.createReadStream(file.path));
     formData.append('metadata', JSON.stringify(metadata));
-    const flaskResponse = await axios.post('http://localhost:8000/labeling', formData, {
+    const flaskResponse = await axios.post('http://3.80.103.72:8000/labeling', formData, {
       headers :{...formData.getHeaders() ,'Content-Type': 'multipart/form-data'}
     });
 
     res.status(200).send('File uploaded to Flask server successfully');
+    setTimeout(() => {// async, await()
+        // Send the Flask server's response back to the client
+        console.log('Response from Flask server:', flaskResponse.data);
+      }, 10000);
   } catch (err) {
     console.error(err);
     res.status(500).send('Error uploading file');

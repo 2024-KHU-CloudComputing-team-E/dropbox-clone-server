@@ -62,7 +62,11 @@ const getUserImages = async (req, res) => {
     const filenames = sortedContents.map((item) => item.Key);
     console.log(filenames);
     const files = await collection
-      .find({ filename: { $in: filenames }, owner: userId, isDeleted: false })
+      .find({
+        filename: { $in: filenames },
+        owner: Number(userId),
+        isDeleted: false,
+      })
       .project({ filename: 1 })
       .toArray();
     console.log("MongoDB Files:", files);

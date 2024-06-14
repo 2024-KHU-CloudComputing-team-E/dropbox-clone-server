@@ -63,7 +63,7 @@ const getUserImages = async (req, res) => {
     console.log(filenames);
     const files = await collection
       .find({
-        filename: { $in: filenames },
+        fileName: { $in: filenames },
         owner: Number(userId),
         isDeleted: false,
       })

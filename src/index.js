@@ -11,6 +11,7 @@ import memberRouter from "./routers/memberRouter.js";
 import mainScrollRouter from "./routers/mainScrollRouter.js";
 import binScrollRouter from "./routers/binScrollRouter.js";
 import downloadRouter from "./routers/downloadRouter.js";
+import fileinfoRouter from "./routers/fileinfoRouter.js";
 
 const __dirname = path.resolve();
 
@@ -24,6 +25,7 @@ app.use("/api/ff", followFollowingRouter);
 app.use("/api/files", mainScrollRouter);
 app.use("/api/binFiles", binScrollRouter);
 app.use("/api/downloadFile", downloadRouter);
+app.use("/api/file", fileinfoRouter);
 
 // app.get("/", (req, res) => {
 //   // res.send(`<a href="/api/login/google'>LogIn</a>

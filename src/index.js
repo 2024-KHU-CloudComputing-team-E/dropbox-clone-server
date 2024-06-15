@@ -22,7 +22,7 @@ app.use("/api/logout", logoutRouter);
 app.use("/api/user", memberRouter);
 app.use("/api/ff", followFollowingRouter);
 app.use("/api/files", mainScrollRouter);
-app.use("/api/binFiles", binScrollRouter);
+app.use("/api/RecycleBin", binScrollRouter);
 app.use("/api/downloadFile", downloadRouter);
 
 // app.get("/", (req, res) => {

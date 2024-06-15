@@ -25,40 +25,68 @@ const upload = multer({
 const uploadController = {
   upload,
   uploadFile: async (req, res) => {
-    console.log("req.file 확인 in uploadController : ", req.file);
-    const fileUrl = req.file.location;
-    const response = await axios.get(fileUrl, {
-      responseType: "stream", // 응답을 스트림 형태로 받기
-    });
-    const stream = response.data;
-    const formData = new FormData();
-    formData.append("file", stream);
-    const flaskResponse = await axios.post(process.env.adrs, formData, {
-      headers: {
-        ...formData.getHeaders(),
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    console.log(flaskResponse.data.ai_labels);
     try {
-      const newFile = new File({
-        owner: req.user.userId,
-        fileName:
-          path.basename(
-            req.file.originalname,
-            path.extname(req.file.originalname)
-          ) + path.extname(req.file.originalname),
-        size: req.file.size,
-        type: path.extname(req.file.originalname),
-        url: req.file.location,
-        aiType: flaskResponse.data.ai_labels[0],
-        createdAt: new Date(),
+      console.log("req.file 확인 in uploadController : ", req.file);
+      const fileUrl = req.file.location;
+      const response = await axios.get(fileUrl, {
+        responseType: "stream", // 응답을 스트림 형태로 받기
       });
-      await newFile.save();
-      res.send("File uploaded in S3 and saved to mongodb successfully.");
+      const stream = response.data;
+      const formData = new FormData();
+      let ai_labels = "";
+      formData.append("file", stream);
+      const flaskResponse = await axios.post(process.env.adrs, formData, {
+        headers: {
+          ...formData.getHeaders(),
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      if (flaskResponse.data.ai_labels.length() > 0) {
+        ai_labels = flaskResponse.data.ai_labels[0];
+      }
+
+      try {
+        const newFile = new File({
+          owner: req.user.userId,
+          fileName:
+            path.basename(
+              req.file.originalname,
+              path.extname(req.file.originalname)
+            ) + path.extname(req.file.originalname),
+          size: req.file.size,
+          type: path.extname(req.file.originalname),
+          url: req.file.location,
+          aiType: ai_labels,
+          createdAt: new Date(),
+        });
+        await newFile.save();
+        res.send("File uploaded in S3 and saved to mongodb successfully.");
+      } catch (e) {
+        console.log(e);
+        res.send("server Error in uploadController : ", e);
+      }
     } catch (e) {
-      console.log(e);
-      res.send("server Error in uploadController : ", e);
+      console.log("ai_connection_err");
+      try {
+        const newFile = new File({
+          owner: req.user.userId,
+          fileName:
+            path.basename(
+              req.file.originalname,
+              path.extname(req.file.originalname)
+            ) + path.extname(req.file.originalname),
+          size: req.file.size,
+          type: path.extname(req.file.originalname),
+          url: req.file.location,
+          aiType: "",
+          createdAt: new Date(),
+        });
+        await newFile.save();
+        res.send("File uploaded in S3 and saved to mongodb successfully.");
+      } catch (e) {
+        console.log(e);
+        res.send("server Error in uploadController : ", e);
+      }
     }
   },
 };

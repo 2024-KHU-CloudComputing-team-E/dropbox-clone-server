@@ -6,15 +6,15 @@ import s3 from "../config/s3.js";
 
 // 휴지통 보낼 파일 요청 받아서 deleteFileOnRecycleBin에 전달하는 함수(바로 아래 함수에 전달)
 async function moveFileToRecycleBin(req, res) {
-  const filename = req.body.fileTitle;
-  console.log(req.body.fileTitle);
+  const fileId = req.params.fileId;
+  const objectId = mongoose.Types.ObjectId(fileId);
 
-  if (!filename) {
-    return res.status(400).send("filename이 필요합니다.");
+  if (!fileId) {
+    return res.status(400).send("fileId가 req.params로 필요합니다.");
   }
 
   try {
-    await updateIsDeleted(filename);
+    await updateIsDeleted(objectId);
     res.send("파일이 휴지통으로 이동되었습니다.");
   } catch (error) {
     console.error(error);
@@ -22,10 +22,10 @@ async function moveFileToRecycleBin(req, res) {
   }
 }
 
-// MongoDB에서 isDeleted를 False -> True로 업데이트하는 함수
-async function updateIsDeleted(fileName) {
+// MongoDB에서 isDeleted를 False -> True로 업데이트하는 함수 : 수정완료
+async function updateIsDeleted(fileId) {
   try {
-    const document = await File.findOne({ fileName: fileName });
+    const document = await File.findOne({ _id: fileId });
 
     if (!document) {
       console.log("Document not Found");
@@ -45,15 +45,15 @@ async function updateIsDeleted(fileName) {
 
 // 휴지통에서 파일을 완전삭제하는 요청 받아서 deleteFileAndDocument에 전달 (바로 아래 함수에 전달)
 async function deleteFileOnRecycleBin(req, res) {
-  const filename = req.body.filename;
-  console.log(req.body.filename);
+  const fileId = req.params.fileId;
+  const objectId = mongoose.Types.ObjectId(fileId);
 
-  if (!filename) {
-    return res.status(400).send("filename이 필요합니다.");
+  if (!fileId) {
+    return res.status(400).send("fileId가 req.params로 필요합니다.");
   }
 
   try {
-    await deleteFileAndDocument(filename);
+    await deleteFileAndDocument(objectId);
     res.send("파일 및 document 삭제 완료");
   } catch (error) {
     console.error(error);
@@ -61,23 +61,22 @@ async function deleteFileOnRecycleBin(req, res) {
   }
 }
 
-//휴지통에서 완전삭제할 파일 및 document 1개를 완전삭제하는 함수
-async function deleteFileAndDocument(s3Key) {
+//휴지통에서 완전삭제할 파일을 s3/mongodb document 1개를 완전삭제하는 함수
+async function deleteFileAndDocument(fileId) {
   try {
-    const document = await collection.findOne({ filename: s3Key });
-    const fileId = document._id;
+    const document = await File.findOne({ _id: fileId });
 
     if (document && document.isDeleted) {
-      // 버킷 이름 수정해서 env에 담을것 넵
       const deleteParams = {
         Bucket: process.env.S3_BUCKETNAME,
-        Key: s3Key,
+        Key: document.fileName,
       };
       const deleteCommand = new DeleteObjectCommand(deleteParams);
       const data = await s3.send(deleteCommand);
-      console.log("Response:", data);
+      console.log("s3 영구삭제 response", data);
 
-      const result = await collection.deleteOne({ _id: new ObjectId(fileId) });
+      const result = await File.deleteOne({ _id: fileId });
+
       if (result.deletedCount === 1) {
         console.log("MongoDB document 삭제 완료");
       } else {
@@ -87,48 +86,30 @@ async function deleteFileAndDocument(s3Key) {
       console.log("isDeleted가 true가 아니거나 문서가 존재하지 않습니다.");
     }
   } catch (error) {
-    console.error("오류 발생:", error);
-  } /*finally {
-    await client.close();
-  }*/
+    console.error("파일 영구삭제 중 오류 발생 deleteFileAndDocument:", error);
+  }
 }
 
-//휴지통 비우기
+//휴지통 비우기(전체삭제)
 async function deleteFileAndDocumentAll() {
   try {
     // isDeleted가 true인 모든 문서 찾기
-    const documents = await collection.find({ isDeleted: true }).toArray();
-    console.log(documents);
+    const documents = await File.find({ isDeleted: true });
+    console.log("휴지통비우기 documents : ", documents);
+
     //모든 documents 순회
-    for (const document of documents) {
-      const s3Key = document.filename;
-      const fileId = document._id;
+    documents.map(async (document) => {
+      const fileId = document.fileId;
+      const objectId = mongoose.Types.ObjectId(fileId);
 
-      // S3 객체 삭제
-      const deleteParams = {
-        Bucket: process.env.S3_BUCKETNAME,
-        Key: s3Key,
-      };
-      const deleteCommand = new DeleteObjectCommand(deleteParams);
-      const data = await s3.send(deleteCommand);
-      console.log(`S3 객체 삭제 완료: ${s3Key}`, data);
-
-      // MongoDB 문서 삭제
-      const result = await collection.deleteOne({ _id: new ObjectId(fileId) });
-      if (result.deletedCount === 1) {
-        console.log(`MongoDB 문서 삭제 완료: ${fileId}`);
-      } else {
-        console.log(`MongoDB 문서 삭제 실패: ${fileId}`);
-      }
-    }
+      deleteFileAndDocument(objectId);
+    });
   } catch (error) {
-    console.error("오류 발생:", error);
-  } /*finally { 
-    await client.close();
-  }*/
+    console.error("휴지통 비우기 중 오류 발생:", error);
+  }
 }
 
-//복원할 파일 요청 받아서 restoreIsDeleted에 전달하는 함수(바로 아래 함수에 전달)
+//복원할 파일 요청 받아서 restoreIsDeleted에 전달하는 함수(바로 아래 함수에 전달) 변수 수정 필요
 async function restore(req, res) {
   const filename = req.body.fileTitle;
   console.log(req.body.fileTitle);

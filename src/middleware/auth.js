@@ -6,7 +6,8 @@ let auth = async (req, res, next) => {
 
   if (!token) return res.json({ isAuth: false, error: "no token" });
   const decoded = jwt.verify(token, "jwtSecret");
-  if (!decoded.user) return res.json({ isAuth: false, error: "no token" });
+  if (!decoded.user)
+    return res.json({ isAuth: false, error: "no decoded.user" });
   const user = await User.findOne(decoded.user);
   if (!user) {
     return res.json({ isAuth: false, error: true });

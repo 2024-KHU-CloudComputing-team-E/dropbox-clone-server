@@ -47,7 +47,7 @@ async function updateIsDeleted(fileId) {
 // 휴지통에서 파일을 완전삭제하는 요청 받아서 deleteFileAndDocument에 전달 (바로 아래 함수에 전달)
 async function deleteFileOnRecycleBin(req, res) {
   const fileId = req.params.fileId;
-  const objectId = mongoose.Types.ObjectId(fileId);
+  const objectId = new ObjectId(fileId);
 
   if (!fileId) {
     return res.status(400).send("fileId가 req.params로 필요합니다.");
@@ -113,7 +113,7 @@ async function deleteFileAndDocumentAll() {
 //복원할 파일 요청 받아서 restoreIsDeleted에 전달하는 함수(바로 아래 함수에 전달) 변수 수정 필요
 async function restore(req, res) {
   const fileId = req.params.fileId;
-  const objectId = mongoose.Types.ObjectId(fileId);
+  const objectId = new ObjectId(fileId);
 
   if (!fileId) {
     return res.status(400).send("fileId가 req.params로 필요합니다.");

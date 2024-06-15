@@ -13,11 +13,4 @@ uploadRouter.post(
   uploadController.uploadFile
 );
 
-uploadRouter.post(
-  "/file/ai",
-  auth,
-  uploadController.localUpload.single("file"),
-  uploadController.localuploadFile
-);
-
 export default uploadRouter;

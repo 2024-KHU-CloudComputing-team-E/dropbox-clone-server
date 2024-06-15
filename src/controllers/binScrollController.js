@@ -4,6 +4,13 @@ const ITEMS_PER_PAGE = 10; // 페이지당 항목 수를 정의합니다.
 
 const getBinImages = async (req, res) => {
   const { userId, page = 0, sortKey = "date", sortOrder = "desc" } = req.query;
+  console.log(
+    "userId, page, sortKey, sortOrder in 휴지통 : ",
+    userId,
+    page,
+    sortKey,
+    sortOrder
+  );
 
   const startIndex = page * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;

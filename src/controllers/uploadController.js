@@ -73,7 +73,7 @@ const uploadController = {
       }
     } catch (e) {
       console.log("ai_connection_err");
-      if (axios.isCancel(error)) {
+      if (axios.isCancel(e)) {
         console.log("Request canceled:", e.message);
       } else {
         console.error("Error uploading file:", e);

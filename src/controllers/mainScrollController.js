@@ -40,13 +40,30 @@ const getUserImages = async (req, res) => {
     // sortedDocuments에서 isDeleted가 false인 항목만 필터링한다.
     const filteredDocuments = sortedDocuments.filter((doc) => !doc.isDeleted);
 
+    let thumbnail = "";
     const slicedDocuments = filteredDocuments
       .slice(startIndex, endIndex)
       .map((item, index) => {
+        if (
+          item.type == ".jpg" ||
+          item.type == ".png" ||
+          item.type == ".jpeg"
+        ) {
+          thumbnail = `https://instabox-source-bucket2.s3.ap-northeast-2.amazonaws.com/thumbnails/${item.fileName}`;
+        } else if (item.type == ".pdf") {
+          thumbnail =
+            "https://instabox-source-bucket2.s3.ap-northeast-2.amazonaws.com/thumbnails/pdfThumbnail.png";
+        } else if (item.type == ".hwp") {
+          thumbnail =
+            "https://instabox-source-bucket2.s3.ap-northeast-2.amazonaws.com/thumbnails/hwpThumbnail.png";
+        } else if (item.type == ".docx") {
+          thumbnail =
+            "https://instabox-source-bucket2.s3.ap-northeast-2.amazonaws.com/thumbnails/docxThumbnail.png";
+        }
         return {
           fileId: item._id,
           fileName: item.fileName,
-          imageUrl: item.url,
+          imageUrl: thumbnail,
         };
       });
 

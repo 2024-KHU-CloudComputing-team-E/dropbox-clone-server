@@ -38,7 +38,7 @@ const uploadController = {
     const source = axios.CancelToken.source();
     const timeout = setTimeout(() => {
       source.cancel("Request timed out");
-    }, 3000); // 5초 타임아웃 설정
+    }, 10000); // 5초 타임아웃 설정
     try {
       const flaskResponse = await axios.post(process.env.adrs, formData, {
         headers: {

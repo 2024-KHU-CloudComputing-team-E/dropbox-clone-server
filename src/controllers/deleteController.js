@@ -101,7 +101,7 @@ async function deleteFileAndDocumentAll() {
     //모든 documents 순회
     documents.map(async (document) => {
       const fileId = document.fileId;
-      const objectId = mongoose.Types.ObjectId(fileId);
+      const objectId = new ObjectId(fileId);
 
       deleteFileAndDocument(objectId);
     });

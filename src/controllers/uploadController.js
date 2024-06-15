@@ -59,7 +59,10 @@ const uploadController = {
             path.basename(
               req.file.originalname,
               path.extname(req.file.originalname)
-            ) + path.extname(req.file.originalname),
+            ) +
+            "_" +
+            Date.now() +
+            path.extname(req.file.originalname),
           size: req.file.size,
           type: path.extname(req.file.originalname),
           url: req.file.location,

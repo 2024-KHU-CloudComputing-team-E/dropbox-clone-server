@@ -21,6 +21,7 @@ const upload = multer({
       cb(null, fileName);
     },
   }),
+  limits: { fileSize: 100 * 1024 * 1024 },
 });
 
 const uploadController = {

@@ -111,15 +111,15 @@ async function deleteFileAndDocumentAll() {
 
 //복원할 파일 요청 받아서 restoreIsDeleted에 전달하는 함수(바로 아래 함수에 전달) 변수 수정 필요
 async function restore(req, res) {
-  const filename = req.body.fileTitle;
-  console.log(req.body.fileTitle);
+  const fileId = req.params.fileId;
+  const objectId = mongoose.Types.ObjectId(fileId);
 
-  if (!filename) {
-    return res.status(400).send("filename이 필요합니다.");
+  if (!fileId) {
+    return res.status(400).send("fileId가 req.params로 필요합니다.");
   }
 
   try {
-    await restoreIsDeleted(filename);
+    await restoreIsDeleted(objectId);
     res.send("파일이 복원 되었습니다.");
   } catch (error) {
     console.error(error);
@@ -128,26 +128,27 @@ async function restore(req, res) {
 }
 
 //휴지통 밖으로 파일 복원
-async function restoreIsDeleted(filename) {
+async function restoreIsDeleted(fileId) {
   try {
-    console.log(111);
-    const document = await collection.findOne({ filename: filename });
-    const fileId = document._id;
-    console.log(fileId);
-    const result = await collection.updateOne(
-      { _id: new ObjectId(fileId) },
-      { $set: { isDeleted: false } }
-    );
+    const document = await File.findOne({ _id: fileId });
+    console.log("복원할 file._id", fileId);
+
+    if (!document) {
+      console.log("Document to restore is not Found.");
+      return;
+    }
+
+    document.isDeleted = false;
+    const result = await document.save();
+
     if (result.modifiedCount === 0) {
-      console.log("No documents were updated");
+      console.log("No documents were updated in restoreIsDeleted");
     } else {
-      console.log("Document updated successfully");
+      console.log("Document updated successfully is restoreIsDeleted");
     }
   } catch (error) {
-    console.error("Error updating document: ", error);
-  } /*finally {
-    await client.close();
-  }*/
+    console.error("Error updating isDeleted document : ", error);
+  }
 }
 
 export {

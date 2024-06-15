@@ -26,16 +26,16 @@ const upload = multer({
 const uploadController = {
   upload,
   uploadFile: async (req, res) => {
+    console.log("req.file 확인 in uploadController : ", req.file);
+    const fileUrl = req.file.location;
+    const response = await axios.get(fileUrl, {
+      responseType: "stream", // 응답을 스트림 형태로 받기
+    });
+    const stream = response.data;
+    const formData = new FormData();
+    let ai_labels = "";
+    formData.append("file", stream);
     try {
-      console.log("req.file 확인 in uploadController : ", req.file);
-      const fileUrl = req.file.location;
-      const response = await axios.get(fileUrl, {
-        responseType: "stream", // 응답을 스트림 형태로 받기
-      });
-      const stream = response.data;
-      const formData = new FormData();
-      let ai_labels = "";
-      formData.append("file", stream);
       const flaskResponse = await axios.post(process.env.adrs, formData, {
         headers: {
           ...formData.getHeaders(),

@@ -1,5 +1,6 @@
 import { DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { Types } from "mongoose";
+import User from "../schemas/user.js";
 const ObjectId = Types.ObjectId;
 
 import File from "../schemas/file.js";
@@ -66,6 +67,10 @@ async function deleteFileOnRecycleBin(req, res) {
 async function deleteFileAndDocument(fileId) {
   try {
     const document = await File.findOne({ _id: fileId });
+    await User.findOneAndUpdate(
+      { userId: req.user.userId },
+      { $set: { volume: req.user.volume - document.size } }
+    );
 
     if (document && document.isDeleted) {
       const deleteParams = {

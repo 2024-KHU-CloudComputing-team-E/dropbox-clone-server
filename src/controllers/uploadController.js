@@ -5,6 +5,7 @@ import multerS3 from "multer-s3";
 import s3 from "../config/s3.js";
 import { default as FormData } from "form-data";
 import axios from "axios";
+import User from "../schemas/user.js";
 
 //s3에 원본파일 저장
 const upload = multer({
@@ -82,6 +83,10 @@ const uploadController = {
           createdAt: new Date(),
         });
         await newFile.save();
+        await User.findOneAndUpdate(
+          { userId: req.user.userId },
+          { $set: { volume: req.user.volume + newFile.size } }
+        );
         res.send("File uploaded in S3 and saved to mongodb successfully.");
       } catch (e) {
         console.log(e);

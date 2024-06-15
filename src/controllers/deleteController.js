@@ -1,5 +1,6 @@
-import { ObjectId } from "mongodb";
 import { DeleteObjectCommand } from "@aws-sdk/client-s3";
+import { Types } from "mongoose";
+const ObjectId = Types.ObjectId;
 
 import File from "../schemas/file.js";
 import s3 from "../config/s3.js";
@@ -7,7 +8,7 @@ import s3 from "../config/s3.js";
 // 휴지통 보낼 파일 요청 받아서 deleteFileOnRecycleBin에 전달하는 함수(바로 아래 함수에 전달)
 async function moveFileToRecycleBin(req, res) {
   const fileId = req.params.fileId;
-  const objectId = mongoose.Types.ObjectId(fileId);
+  const objectId = new ObjectId(fileId);
 
   if (!fileId) {
     return res.status(400).send("fileId가 req.params로 필요합니다.");

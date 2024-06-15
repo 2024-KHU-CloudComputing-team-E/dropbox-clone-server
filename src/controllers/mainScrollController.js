@@ -40,7 +40,7 @@ const getUserImages = async (req, res) => {
 
     //페이지네이션 함수 추가 필요
     const slicedDocuments = await pagination(filteredDocuments, page);
-    res.status(500).send(slicedDocuments);
+    res.send(slicedDocuments);
   } catch (error) {
     console.error("Error fetching documents in mainScrollController: ", error);
     res.status(500).send("Error fetching documents in mainScrollController");

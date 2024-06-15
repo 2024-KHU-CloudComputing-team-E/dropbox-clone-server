@@ -2,7 +2,7 @@ import mongoose from "../config/mongoose.js";
 
 const userSchema = new mongoose.Schema({
   userId: {
-    type: Number,
+    type: String,
     required: true,
     unique: true,
   },

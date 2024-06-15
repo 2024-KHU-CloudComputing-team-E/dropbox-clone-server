@@ -4,6 +4,7 @@ const ITEMS_PER_PAGE = 10; // 페이지당 항목 수를 정의합니다.
 
 const getUserImages = async (req, res) => {
   const { userId, page = 0, sortKey = "date", sortOrder = "desc" } = req.query;
+  console.log("userId, page, sortKey, sortOrder");
 
   let sortedDocuments = [];
 

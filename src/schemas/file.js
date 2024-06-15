@@ -25,6 +25,10 @@ const fileSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  url: {
+    type: String,
+    required: true,
+  },
   aiType: {
     type: String,
   },
@@ -32,12 +36,13 @@ const fileSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  updateAt: {
+  updatedAt: {
     type: Date,
     default: Date.now,
   },
   expiredAt: {
     type: Date,
+    default: Date.now,
   },
   isDeleted: {
     type: Boolean,
@@ -45,6 +50,7 @@ const fileSchema = new mongoose.Schema({
   },
   deletedAt: {
     type: Date,
+    default: Date.now,
   },
 });
 

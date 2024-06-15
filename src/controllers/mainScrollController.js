@@ -6,10 +6,9 @@ const getUserImages = async (req, res) => {
   const { userId, page = 0, sortKey = "date", sortOrder = "desc" } = req.query;
   console.log("userId, page, sortKey, sortOrder");
 
-  let sortedDocuments = [];
-
   // 이름순 정렬
   try {
+    let sortedDocuments = [];
     if (sortKey == "name") {
       if (sortOrder == "asc") {
         sortedDocuments = await File.find({ owner: userId }).sort({

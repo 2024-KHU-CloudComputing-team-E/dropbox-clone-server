@@ -1,13 +1,6 @@
-const mongoose = require("mongoose");
+import mongoose from "../config/mongoose.js";
 
 const fileSchema = new mongoose.Schema({
-  /*
-  owner: {
-    type: mongoose.Schema.Types.ObjecId,
-    ref: "User",
-    required: true,
-  },
-  */
   owner: {
     type: String,
     required: true,
@@ -54,4 +47,6 @@ const fileSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("File", fileSchema);
+const File = mongoose.model("File", fileSchema);
+
+export default File;

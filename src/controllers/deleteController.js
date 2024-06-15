@@ -69,7 +69,11 @@ async function deleteFileAndDocument(fileId) {
     const document = await File.findOne({ _id: fileId });
     await User.findOneAndUpdate(
       { userId: req.user.userId },
-      { $set: { volume: req.user.volume - document.size } }
+      {
+        $set: {
+          volume: req.user.volume - document.size / (1024 * 1024 * 1024),
+        },
+      }
     );
 
     if (document && document.isDeleted) {

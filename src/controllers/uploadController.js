@@ -95,7 +95,11 @@ const uploadController = {
         await newFile.save();
         await User.findOneAndUpdate(
           { userId: req.user.userId },
-          { $set: { volume: req.user.volume + newFile.size } }
+          {
+            $set: {
+              volume: req.user.volume + newFile.size / (1024 * 1024 * 1024),
+            },
+          }
         );
         res.send("File uploaded in S3 and saved to mongodb successfully.");
       } catch (e) {

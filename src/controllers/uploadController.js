@@ -15,7 +15,7 @@ const upload = multer({
     key: async function (req, file, cb) {
       const ext = path.extname(file.originalname); // 파일 확장자
       const baseName = path.basename(file.originalname, ext); // 원래 파일 이름
-      const fileName = baseName /*+ "_" + Date.now()*/ + ext; // s3에 저장될 파일 이름
+      const fileName = baseName + "_" + Date.now() + ext; // s3에 저장될 파일 이름
       //처음에 파일명 중복 제거하려고 Date.now() 추가했는데, 똑같은 이름의 파일을 중복을 구분하고 사용하는 경우가 없다고 판단하여 Date.now()를 더하는 부분을 주석 처리 했습니다.
 
       cb(null, fileName);
@@ -77,7 +77,7 @@ const uploadController = {
       if (axios.isCancel(e)) {
         console.log("Request canceled:", e.message);
       } else {
-        console.error("Error uploading file:", e);
+        console.log("Error uploading file:", e);
       }
       try {
         const newFile = new File({

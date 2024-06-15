@@ -18,27 +18,34 @@ const upload = multer({ storage: storage });
 
 const flaskController = {
   upload,
-  uploadFile: async (file) => {
+  uploadFile: async (req, res) => {
     try {
+      const file = req.file;
       // 플라스크로 보낼 정보 formData에 저장 후 전송
-      //const formData = new FormData();
-      //formData.append("file", fs.createReadStream(file.path));
+      const formData = new FormData();
+      formData.append("file", fs.createReadStream(file.path));
       //향후 주소 넣어줘야합니다.
-      const flaskResponse = await axios.post(process.env.adrs, file, {
+      const flaskResponse = await axios.post(process.env.adrs, formData, {
         headers: {
-          ...file.getHeaders(),
+          ...formData.getHeaders(),
           "Content-Type": "multipart/form-data",
         },
       });
 
-      console.log("Response from Flask server:", flaskResponse.data.ai_labels);
+      res.status(200).send("File uploaded to Flask server successfully");
+      // flask로부터 데이터를 받아옴
+      const flaskResponse_get = await flaskResponse;
 
-      return flaskResponse.data.ai_labels;
+      console.log(
+        "Response from Flask server:",
+        flaskResponse_get.data.ai_labels
+      );
     } catch (err) {
       console.error(err);
-      return err;
+      res.status(500).send("Error uploading file");
     } finally {
       // 업로드받은 파일 node server 폴더 내 업로드파일 복사본 삭제
+      const file = req.file;
       fs.unlink(file.path, (err) => {
         if (err) console.error(err);
       });

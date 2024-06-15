@@ -55,12 +55,10 @@ const uploadController = {
         createdAt: new Date(),
       });
       await newFile.save();
-      res
-        .status(201)
-        .send("File uploaded in S3 and saved to mongodb successfully.");
+      res.send("File uploaded in S3 and saved to mongodb successfully.");
     } catch (e) {
       console.log(e);
-      res.status(500).send("server Error in uploadController : ", e);
+      res.send("server Error in uploadController : ", e);
     }
   },
 };

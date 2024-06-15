@@ -7,6 +7,7 @@ const memberRouter = express.Router();
 memberRouter.use(cookieParser());
 
 memberRouter.get("/logined", auth, async (req, res) => {
+  console.log(req.user);
   res.send(req.user);
 });
 

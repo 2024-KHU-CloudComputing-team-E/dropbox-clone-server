@@ -78,11 +78,7 @@ const uploadController = {
       try {
         const newFile = new File({
           owner: req.user.userId,
-          fileName:
-            path.basename(
-              req.file.originalname,
-              path.extname(req.file.originalname)
-            ) + path.extname(req.file.originalname),
+          fileName: req.file.key,
           size: req.file.size,
           type: path.extname(req.file.originalname),
           url: req.file.location,

@@ -35,12 +35,17 @@ const uploadController = {
     const formData = new FormData();
     let ai_labels = "";
     formData.append("file", stream);
+    const source = axios.CancelToken.source();
+    const timeout = setTimeout(() => {
+      source.cancel("Request timed out");
+    }, 3000); // 5초 타임아웃 설정
     try {
       const flaskResponse = await axios.post(process.env.adrs, formData, {
         headers: {
           ...formData.getHeaders(),
           "Content-Type": "multipart/form-data",
         },
+        cancelToken: source.token,
       });
       if (flaskResponse.data.ai_labels.length() > 0) {
         ai_labels = flaskResponse.data.ai_labels[0];
@@ -68,6 +73,11 @@ const uploadController = {
       }
     } catch (e) {
       console.log("ai_connection_err");
+      if (axios.isCancel(error)) {
+        console.log("Request canceled:", e.message);
+      } else {
+        console.error("Error uploading file:", e);
+      }
       try {
         const newFile = new File({
           owner: req.user.userId,
@@ -92,6 +102,8 @@ const uploadController = {
         console.log(e);
         res.send("server Error in uploadController : ", e);
       }
+    } finally {
+      clearTimeout(timeout); // 타임아웃 해제
     }
   },
 };

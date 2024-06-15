@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "../config/mongoose.js";
 
 const fileSchema = new mongoose.Schema({
   /*

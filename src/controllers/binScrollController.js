@@ -16,7 +16,8 @@ const db = await connectDB();
 const collection = db.collection("files");
 
 const getBinImages = async (req, res) => {
-    const { userId, page = 0, sortKey = 'date', sortOrder = 'desc' } = req.query;
+    const page = req.query.page || 0;
+    const userId = req.user.id;
 
     try {
         const params = {
@@ -27,27 +28,8 @@ const getBinImages = async (req, res) => {
         const data = await d_s3.listObjectsV2(params).promise();
         console.log("S3 Data:", data);
 
-        let sortedContents = [];
-
-        // 이름순 정렬
-        if(sortKey == 'name'){
-            if(sortOrder == 'asc'){
-                sortedContents = data.Contents.sort((a, b) => a.Key.localeCompare(b.Key));
-            }
-            else if(sortOrder == 'desc'){
-                sortedContents = data.Contents.sort((a, b) => b.Key.localeCompare(a.Key));
-            }
-        }
-        
-        // 날짜순 정렬
-        if(sortKey == 'date'){
-            if(sortOrder == 'asc'){
-                sortedContents = data.Contents.sort((a, b) => new Date(a.LastModified) - new Date(b.LastModified));
-            }
-            else if(sortOrder == 'desc'){
-                sortedContents = data.Contents.sort((a, b) => new Date(b.LastModified) - new Date(a.LastModified));
-            }
-        }
+        //업로드 최신순 정렬
+        const sortedContents = data.Contents.sort((a, b) => new Date(b.LastModified) - new Date(a.LastModified));
 
         //정렬 결과 확인
         console.log("Sorted Contents:", sortedContents);
@@ -70,27 +52,29 @@ const getBinImages = async (req, res) => {
         const endIndex = startIndex + ITEMS_PER_PAGE;
 
         // 필터링된 객체 목록에서 URL과 기타 정보를 생성합니다.
-        const images = filteredContents.slice(startIndex, endIndex).map((item, index) => {
-            return {
-                fileId: page*10 + index,
-                // filename은 객체의 키로 설정합니다.
-                filename: item.Key, 
-                imgUrl: d_s3.getSignedUrl('getObject', {
-                    Bucket: params.Bucket,
-                    Key: item.Key,
-                    // URL의 유효 기간을 60초로 설정합니다.
-                    Expires: 60 
-                })
-            };
-        });
-        console.log("Images:", images);
+        const images = filteredContents
+      .slice(startIndex, endIndex)
+      .map((item, index) => {
+        return {
+          fileId: validFileId[startIndex + index],
+          // filename은 객체의 키로 설정합니다.
+          fileName: item.Key,
+          imgUrl: d_s3.getSignedUrl("getObject", {
+            Bucket: params.Bucket,
+            Key: item.Key,
+            // URL의 유효 기간을 60초로 설정합니다.
+            Expires: 60,
+          }),
+        };
+      });
+    console.log("Images:", images);
 
-        // 클라이언트에 이미지 객체 목록을 JSON 형식으로 응답합니다.
-        res.json({ images });
-    } catch (error) {
-        console.error("Error fetching images from S3:", error);
-        res.status(500).send('Error fetching images from S3');
-    }
+    // 클라이언트에 이미지 객체 목록을 JSON 형식으로 응답합니다.
+    res.json({ images });
+  } catch (error) {
+    console.error("Error fetching images from S3:", error);
+    res.status(500).send("Error fetching images from S3");
+  }
 };
 
 export default getBinImages;

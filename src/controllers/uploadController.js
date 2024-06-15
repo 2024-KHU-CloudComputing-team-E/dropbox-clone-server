@@ -3,6 +3,7 @@ import path from "path";
 import multer from "multer";
 import multerS3 from "multer-s3";
 import s3 from "../config/s3.js";
+import flaskController from "../controllers/flaskController.js";
 
 //s3에 원본파일 저장
 const upload = multer({
@@ -25,6 +26,7 @@ const uploadController = {
     console.log("req.file 확인 in uploadController : ", req.file);
 
     try {
+      await flaskController.uploadFile(req.file);
       const newFile = new File({
         owner: req.user.userId,
         fileName:

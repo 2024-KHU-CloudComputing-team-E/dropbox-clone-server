@@ -66,7 +66,7 @@ const verifyUser = async (userinfo) => {
     },
   };
   const token = jwt.sign(
-    payload, // 변환할 데이터
+    payload, // payload를 jwt로 만든다
     "jwtSecret", // secret key 값
     { expiresIn: "1h" } // token의 유효시간
   );

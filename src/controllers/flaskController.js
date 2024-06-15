@@ -39,7 +39,6 @@ const flaskController = {
       return err;
     } finally {
       // 업로드받은 파일 node server 폴더 내 업로드파일 복사본 삭제
-      const file = req.file;
       fs.unlink(file.path, (err) => {
         if (err) console.error(err);
       });

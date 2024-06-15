@@ -24,7 +24,8 @@ const uploadController = {
   upload,
   uploadFile: async (req, res) => {
     console.log("req.file 확인 in uploadController : ", req.file);
-    await flaskController.uploadFile(req.file);
+    const tag = await flaskController.uploadFile(req.file);
+    console.log(tag);
     try {
       const newFile = new File({
         owner: req.user.userId,

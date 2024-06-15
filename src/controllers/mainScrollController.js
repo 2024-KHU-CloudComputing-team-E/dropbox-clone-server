@@ -40,7 +40,6 @@ const getUserImages = async (req, res) => {
     // sortedDocuments에서 isDeleted가 false인 항목만 필터링한다.
     const filteredDocuments = sortedDocuments.filter((doc) => !doc.isDeleted);
 
-    //페이지네이션 함수 추가 필요
     const slicedDocuments = filteredDocuments
       .slice(startIndex, endIndex)
       .map((item, index) => {

@@ -15,8 +15,8 @@ import fileinfoRouter from "./routers/fileinfoRouter.js";
 
 const __dirname = path.resolve();
 
-app.use("/api/uploadfile", uploadRouter);
-app.use("/api/deletefile", deleteRouter);
+app.use("/api/uploadFile", uploadRouter);
+app.use("/api/deleteFile", deleteRouter);
 app.use("/api/comments", commentRouter);
 app.use("/api/login", googleRouter);
 app.use("/api/logout", logoutRouter);

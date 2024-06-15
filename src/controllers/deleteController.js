@@ -1,12 +1,8 @@
 import { ObjectId } from "mongodb";
 import { DeleteObjectCommand } from "@aws-sdk/client-s3";
-import connectDB from "../config/mongoClient.js";
-import s3 from "../config/s3.js";
 
-// 데이터베이스 연결 객체 가져오기
-const db = await connectDB();
-// collection 선택
-const collection = db.collection("files");
+import File from "../schemas/file.js";
+import s3 from "../config/s3.js";
 
 // 휴지통 보낼 파일 요청 받아서 deleteFileOnRecycleBin에 전달하는 함수(바로 아래 함수에 전달)
 async function moveFileToRecycleBin(req, res) {
@@ -27,26 +23,24 @@ async function moveFileToRecycleBin(req, res) {
 }
 
 // MongoDB에서 isDeleted를 False -> True로 업데이트하는 함수
-async function updateIsDeleted(filename) {
+async function updateIsDeleted(fileName) {
   try {
-    const document = await collection.findOne({ filename: filename });
-    const fileId = document._id;
-    const result = await collection.updateOne(
-      { _id: new ObjectId(fileId) },
-      { $set: { isDeleted: true } }
-    );
+    const document = await File.findOne({ fileName: fileName });
 
-    if (result.modifiedCount === 0) {
-      console.log("No documents were updated");
-    } else {
-      console.log("Document updated successfully");
+    if (!document) {
+      console.log("Document not Found");
+      return;
     }
+
+    document.isDeleted = true;
+    document.deletedAt = new Date();
+
+    const result = await document.save();
+
+    console.log("Document updated successfully: ", result);
   } catch (error) {
     console.error("Error updating document: ", error);
-  } /*finally {
-    await client.close();
   }
-    */
 }
 
 // 휴지통에서 파일을 완전삭제하는 요청 받아서 deleteFileAndDocument에 전달 (바로 아래 함수에 전달)
@@ -175,4 +169,9 @@ async function restoreIsDeleted(filename) {
   }*/
 }
 
-export { moveFileToRecycleBin, deleteFileOnRecycleBin, deleteFileAndDocumentAll, restore };
+export {
+  moveFileToRecycleBin,
+  deleteFileOnRecycleBin,
+  deleteFileAndDocumentAll,
+  restore,
+};

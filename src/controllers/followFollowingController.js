@@ -26,8 +26,8 @@ export async function follow(req, res) {
       {
         $set: {
           followers: targetUser.followers.push({
-            userId: req.user.userId,
-            userName: req.user.userName,
+            userId: currentUser.userId,
+            userName: currentUser.userName,
           }),
         },
       }
@@ -36,7 +36,7 @@ export async function follow(req, res) {
       { userId: req.user.userId },
       {
         $set: {
-          followings: req.user.followings.push({
+          followings: currentUser.followings.push({
             userId: targetUser.userId,
             userName: targetUser.userName,
           }),

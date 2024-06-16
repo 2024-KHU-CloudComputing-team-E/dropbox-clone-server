@@ -1,4 +1,5 @@
 import User from "../schemas/user.js";
+import auth from "../middleware/auth.js";
 
 // 팔로우(내 Id와 상대방 Id가 입력으로 들어오면 내 팔로우 목록에 상대방 Id, 상대방 팔로워 목록에 내 Id 추가)
 export async function follow(req, res) {

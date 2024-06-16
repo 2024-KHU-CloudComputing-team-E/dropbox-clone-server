@@ -72,7 +72,6 @@ export async function unfollow(req, res) {
 
   try {
     // 현재 사용자와 상대방을 mongodb에서 찾기
-    const index = -1;
     const currentUser = req.user;
     const targetUser = await User.findOne({ userId: targetUserId });
     console.log(currentUser);

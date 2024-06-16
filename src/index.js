@@ -12,6 +12,7 @@ import mainScrollRouter from "./routers/mainScrollRouter.js";
 import binScrollRouter from "./routers/binScrollRouter.js";
 import downloadRouter from "./routers/downloadRouter.js";
 import fileinfoRouter from "./routers/fileinfoRouter.js";
+import searchRouter from "./routers/searchRouter.js";
 
 const __dirname = path.resolve();
 
@@ -26,6 +27,7 @@ app.use("/api/files", mainScrollRouter);
 app.use("/api/RecycleBin", binScrollRouter);
 app.use("/api/downloadFile", downloadRouter);
 app.use("/api/file", fileinfoRouter);
+app.use("/api/search", searchRouter);
 
 // app.get("/", (req, res) => {
 //   // res.send(`<a href="/api/login/google'>LogIn</a>

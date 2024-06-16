@@ -37,10 +37,10 @@ export async function follow(req, res) {
       }
     );
     await User.findOneAndUpdate(
-      { userId: req.user.userId },
+      { userId: currentUserId },
       {
         $set: {
-          followings: currentUser.follwings,
+          followings: currentUser.followings,
         },
       }
     );

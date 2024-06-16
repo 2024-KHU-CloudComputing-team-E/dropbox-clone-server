@@ -2,8 +2,8 @@ import User from "../schemas/user.js";
 
 // 팔로우(내 Id와 상대방 Id가 입력으로 들어오면 내 팔로우 목록에 상대방 Id, 상대방 팔로워 목록에 내 Id 추가)
 export async function follow(req, res) {
-  const { currentUserId, targetUserId } = req.body;
-  console.log(req.body);
+  const currentUserId = req.user.userId;
+  const targetUserId = req.params.userId;
 
   if (!currentUserId || !targetUserId) {
     return res.status(400).send({ message: "All fields must be provided." });
@@ -12,32 +12,36 @@ export async function follow(req, res) {
   try {
     // 현재 사용자와 상대방을 mongodb에서 찾기
 
-    const currentUser = await User.findOne({ userId: currentUserId });
+    const currentUser = req.user;
     const targetUser = await User.findOne({ userId: targetUserId });
 
     if (!currentUser || !targetUser) {
       return res.status(404).send({ message: "User not found." });
     }
 
-    //이미 팔로우 했으면 팔로우 중복 안되게.
-
-    const isAlreadyFollowing = currentUser.followings.includes(
-      targetUser.userId
-    );
-    const isAlreadyFollowed = targetUser.followers.includes(currentUser.userId);
-
-    if (isAlreadyFollowing || isAlreadyFollowed) {
-      return res.status(400).send({ message: "Already following this user." });
-    }
-
     // 현재 사용자의 팔로잉 목록에 상대방의 userId를 추가
-    await User.findByIdAndUpdate(currentUser._id, {
-      $addToSet: { followings: targetUser.userId },
-    });
-    // 상대방의 팔로워 목록에 현재 사용자의 userId를 추가
-    await User.findByIdAndUpdate(targetUser._id, {
-      $addToSet: { followers: currentUser.userId },
-    });
+    await User.findOneAndUpdate(
+      { userId: targetUser },
+      {
+        $set: {
+          followers: targetUser.followers.push({
+            userId: req.user.userId,
+            userName: req.user.userName,
+          }),
+        },
+      }
+    );
+    await User.findOneAndUpdate(
+      { userId: req.user.userId },
+      {
+        $set: {
+          followings: req.user.followings.push({
+            userId: targetUser.userId,
+            userName: targetUser.userName,
+          }),
+        },
+      }
+    );
 
     res.send({ message: "Successfully followed." });
   } catch (error) {

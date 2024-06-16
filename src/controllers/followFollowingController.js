@@ -62,7 +62,7 @@ export async function follow(req, res) {
   }
 }
 
-export async function follow(req, res) {
+export async function unfollow(req, res) {
   const currentUserId = req.user.userId;
   const targetUserId = req.params.userId;
 

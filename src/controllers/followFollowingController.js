@@ -28,9 +28,8 @@ export async function follow(req, res) {
     if (!currentUser || !targetUser) {
       return res.status(404).send({ message: "User not found." });
     }
-
     await User.findOneAndUpdate(
-      { userId: targetUser },
+      { userId: targetUserId },
       {
         $set: {
           followers: targetUser.followers,

@@ -14,6 +14,7 @@ export async function follow(req, res) {
 
     const currentUser = req.user;
     const targetUser = await User.findOne({ userId: targetUserId });
+    console.log(targetUser);
 
     if (!currentUser || !targetUser) {
       return res.status(404).send({ message: "User not found." });

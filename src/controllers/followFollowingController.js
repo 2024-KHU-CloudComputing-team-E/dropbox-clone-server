@@ -4,7 +4,7 @@ import User from "../schemas/user.js";
 export async function follow(req, res) {
   const currentUserId = req.user.userId;
   const targetUserId = req.params.userId;
-
+  console.log(targetUserId);
   if (!currentUserId || !targetUserId) {
     return res.status(400).send({ message: "All fields must be provided." });
   }

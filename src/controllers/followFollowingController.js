@@ -4,48 +4,58 @@ import User from "../schemas/user.js";
 export async function follow(req, res) {
   const currentUserId = req.user.userId;
   const targetUserId = req.params.userId;
+
   if (!currentUserId || !targetUserId) {
     return res.status(400).send({ message: "All fields must be provided." });
   }
 
   try {
     // 현재 사용자와 상대방을 mongodb에서 찾기
-
+    const duplicated = false;
     const currentUser = req.user;
     const targetUser = await User.findOne({ userId: targetUserId });
     console.log(currentUser);
     console.log(targetUser);
-    targetUser.followers.push({
-      userId: currentUser.userId,
-      userName: currentUser.userName,
-    });
-    currentUser.followings.push({
-      userId: targetUser.userId,
-      userName: targetUser.userName,
-    });
-    console.log(currentUser);
-    console.log(targetUser);
-    if (!currentUser || !targetUser) {
-      return res.status(404).send({ message: "User not found." });
+    for (let i = 0; i < currentUser.followings.length; i++) {
+      if (currentUser.followings[i].userId == targetUserId) {
+        duplicated = true;
+        break;
+      }
     }
-    await User.findOneAndUpdate(
-      { userId: targetUserId },
-      {
-        $set: {
-          followers: targetUser.followers,
-        },
-      }
-    );
-    await User.findOneAndUpdate(
-      { userId: currentUserId },
-      {
-        $set: {
-          followings: currentUser.followings,
-        },
-      }
-    );
+    if (duplicated == false) {
+      targetUser.followers.push({
+        userId: currentUser.userId,
+        userName: currentUser.userName,
+      });
+      currentUser.followings.push({
+        userId: targetUser.userId,
+        userName: targetUser.userName,
+      });
 
-    res.send({ message: "Successfully followed." });
+      if (!currentUser || !targetUser) {
+        return res.status(404).send({ message: "User not found." });
+      }
+      await User.findOneAndUpdate(
+        { userId: targetUserId },
+        {
+          $set: {
+            followers: targetUser.followers,
+          },
+        }
+      );
+      await User.findOneAndUpdate(
+        { userId: currentUserId },
+        {
+          $set: {
+            followings: currentUser.followings,
+          },
+        }
+      );
+
+      res.send({ message: "Successfully followed." });
+    } else {
+      res.send({ message: "이미 팔로우 한 유저입니다." });
+    }
   } catch (error) {
     console.error(`Error occurred while following: ${error}`);
     res.status(500).send({ message: "Error occurred while following." });

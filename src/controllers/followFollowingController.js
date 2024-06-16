@@ -62,39 +62,53 @@ export async function follow(req, res) {
   }
 }
 
-//언팔로우
-//팔로우 함수와 거의 동일하고 목록에서 id 지우는 부분만 다름
-export async function unfollow(req, res) {
-  const { currentUserId, targetUserId } = req.body;
-  console.log(req.body);
+export async function follow(req, res) {
+  const currentUserId = req.user.userId;
+  const targetUserId = req.params.userId;
 
   if (!currentUserId || !targetUserId) {
     return res.status(400).send({ message: "All fields must be provided." });
   }
 
   try {
-    const currentUser = await User.findOne({ userId: currentUserId });
+    // 현재 사용자와 상대방을 mongodb에서 찾기
+    const index = -1;
+    const currentUser = req.user;
     const targetUser = await User.findOne({ userId: targetUserId });
+    console.log(currentUser);
+    console.log(targetUser);
+    for (let i = 0; i < currentUser.followings.length; i++) {
+      if (currentUser.followings[i].userId == targetUserId) {
+        currentUser.followings.splice(i, 1);
+        break;
+      }
+    }
+    for (let j = 0; j < targetUser.followers.length; j++) {
+      if (targetUser.followers[j].userId == currentUserId) {
+        targetUser.followers.splice(j, 1);
+        break;
+      }
+    }
 
     if (!currentUser || !targetUser) {
       return res.status(404).send({ message: "User not found." });
     }
-
-    const isNotFollowing = !currentUser.followings.includes(targetUser.userId);
-    const isNotFollowed = !targetUser.followers.includes(currentUser.userId);
-
-    if (isNotFollowing || isNotFollowed) {
-      return res.status(400).send({ message: "Not following this user." });
-    }
-
-    // 현재 사용자의 팔로잉 목록에서 타겟 사용자의 userId를 제거
-    await User.findByIdAndUpdate(currentUser._id, {
-      $pull: { followings: targetUser.userId },
-    });
-    // 타겟 사용자의 팔로워 목록에서 현재 사용자의 userId를 제거
-    await User.findByIdAndUpdate(targetUser._id, {
-      $pull: { followers: currentUser.userId },
-    });
+    await User.findOneAndUpdate(
+      { userId: targetUserId },
+      {
+        $set: {
+          followers: targetUser.followers,
+        },
+      }
+    );
+    await User.findOneAndUpdate(
+      { userId: currentUserId },
+      {
+        $set: {
+          followings: currentUser.followings,
+        },
+      }
+    );
 
     res.send({ message: "Successfully unfollowed." });
   } catch (error) {

@@ -4,7 +4,6 @@ import User from "../schemas/user.js";
 export async function follow(req, res) {
   const currentUserId = req.user.userId;
   const targetUserId = req.params.userId;
-  console.log(targetUserId);
   if (!currentUserId || !targetUserId) {
     return res.status(400).send({ message: "All fields must be provided." });
   }
@@ -14,7 +13,14 @@ export async function follow(req, res) {
 
     const currentUser = req.user;
     const targetUser = await User.findOne({ userId: targetUserId });
-    console.log(targetUser);
+    targetUser.followers.push({
+      userId: currentUser.userId,
+      userName: currentUser.userName,
+    });
+    currentUser.followings.push({
+      userId: targetUser.userId,
+      userName: targetUser.userName,
+    });
 
     if (!currentUser || !targetUser) {
       return res.status(404).send({ message: "User not found." });
@@ -25,10 +31,7 @@ export async function follow(req, res) {
       { userId: targetUser },
       {
         $set: {
-          followers: targetUser.followers.push({
-            userId: currentUser.userId,
-            userName: currentUser.userName,
-          }),
+          followers: targetUser.followers,
         },
       }
     );
@@ -36,10 +39,7 @@ export async function follow(req, res) {
       { userId: req.user.userId },
       {
         $set: {
-          followings: currentUser.followings.push({
-            userId: targetUser.userId,
-            userName: targetUser.userName,
-          }),
+          followings: currentUser.follwings,
         },
       }
     );

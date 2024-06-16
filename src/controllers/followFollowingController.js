@@ -13,6 +13,8 @@ export async function follow(req, res) {
 
     const currentUser = req.user;
     const targetUser = await User.findOne({ userId: targetUserId });
+    console.log(currentUser);
+    console.log(targetUser);
     targetUser.followers.push({
       userId: currentUser.userId,
       userName: currentUser.userName,
@@ -21,12 +23,12 @@ export async function follow(req, res) {
       userId: targetUser.userId,
       userName: targetUser.userName,
     });
-
+    console.log(currentUser);
+    console.log(targetUser);
     if (!currentUser || !targetUser) {
       return res.status(404).send({ message: "User not found." });
     }
 
-    // 현재 사용자의 팔로잉 목록에 상대방의 userId를 추가
     await User.findOneAndUpdate(
       { userId: targetUser },
       {

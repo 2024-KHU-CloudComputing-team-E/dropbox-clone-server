@@ -18,6 +18,7 @@ thumbnailRouter.get("/:fileName", (req, res) => {
 thumbnailRouter.post("/", (req, res) => {
   const imagePath = path.join(__dirname, `./thumbnails/${Date.now()}.jpg`);
   console.log(imagePath);
+  console.log(req.body);
   fs.writeFile(imagePath, req.body, (err) => {
     if (err) {
       console.error("Error saving thumbnail:", err);

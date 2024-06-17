@@ -12,7 +12,7 @@ commentRouter.post("/", auth, async (req, res) => {
     fileId: req.body.fileId,
     comment: req.body.comment,
   };
-  await commentController.postComment(data);
+  await commentController.postComment(req, res, data);
 
   res.send(data);
 });

@@ -3,7 +3,7 @@ import File from "../schemas/file.js";
 import { Types } from "mongoose";
 const ObjectId = Types.ObjectId;
 
-const postComment = async (data) => {
+const postComment = async (req, res, data) => {
   const objectId = new ObjectId(data.fileId);
   await comments.create(data);
   const target = await File.findOne({ _id: objectId });

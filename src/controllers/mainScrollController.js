@@ -52,17 +52,16 @@ const getUserImages = async (req, res) => {
           // thumbnail = `https://instabox-source-bucket2.s3.ap-northeast-2.amazonaws.com/thumbnails/${item.fileName}`;
           thumbnail = `${process.env.HOST_ADDRESS}/api/thumbnail/${item._id}`;
         } else if (item.type == ".pdf") {
-          thumbnail =
-            "https://instabox-source-bucket2.s3.ap-northeast-2.amazonaws.com/thumbnails/pdfThumbnail.png";
+          thumbnail = `${process.env.HOST_ADDRESS}/api/thumbnail/pdfThumbnail.png`;
         } else if (item.type == ".hwp") {
           thumbnail =
-            "https://instabox-source-bucket2.s3.ap-northeast-2.amazonaws.com/thumbnails/hwpThumbnail.png";
+            thumbnail = `${process.env.HOST_ADDRESS}/api/thumbnail/hwpThumbnail.png`;
         } else if (item.type == ".docx") {
           thumbnail =
-            "https://instabox-source-bucket2.s3.ap-northeast-2.amazonaws.com/thumbnails/docxThumbnail.png";
+            thumbnail = `${process.env.HOST_ADDRESS}/api/thumbnail/docxThumbnail.png`;
         } else if (item.type == ".txt") {
           thumbnail =
-            "https://instabox-source-bucket2.s3.ap-northeast-2.amazonaws.com/thumbnails/txtThumbnail.png";
+            thumbnail = `${process.env.HOST_ADDRESS}/api/thumbnail/txtThumbnail.png`;
         }
         return {
           fileId: item._id,

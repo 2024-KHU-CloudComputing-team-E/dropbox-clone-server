@@ -4,7 +4,7 @@ const __dirname = path.resolve();
 const thumbnailRouter = express.Router();
 
 thumbnailRouter.get("/:fileName", (req, res) => {
-  const fileName = req.params.fileName;
+  const fileName = Buffer.from(req.params.fileName, "latin1").toString("utf8");
   res.sendFile(path.join(__dirname, `./thumbnails/${fileName}`));
 });
 

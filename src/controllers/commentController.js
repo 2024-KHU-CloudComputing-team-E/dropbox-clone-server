@@ -4,7 +4,7 @@ import { Types } from "mongoose";
 const ObjectId = Types.ObjectId;
 
 const postComment = async (data) => {
-  const objectId = new ObjectId(fileId);
+  const objectId = new ObjectId(data.fileId);
   await comments.create(data);
   const target = await File.FindOne({ _id: objectId });
   let array = target.comments;

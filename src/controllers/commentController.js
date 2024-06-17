@@ -6,7 +6,7 @@ const ObjectId = Types.ObjectId;
 const postComment = async (data) => {
   const objectId = new ObjectId(data.fileId);
   await comments.create(data);
-  const target = await File.FindOne({ _id: objectId });
+  const target = await File.findOne({ _id: objectId });
   let array = target.comments;
   array.push({ userName: req.user.userName, comment: data.comment });
   await File.findOneAndUpdate({ _id: objectId }, { $set: { comments: array } });

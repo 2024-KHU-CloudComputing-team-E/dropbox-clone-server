@@ -13,6 +13,7 @@ commentRouter.post("/", auth, async (req, res) => {
     comment: req.body.comment,
   };
   await commentController.postComment(data);
+
   res.send(data);
 });
 

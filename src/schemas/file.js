@@ -25,6 +25,9 @@ const fileSchema = new mongoose.Schema({
   aiType: {
     type: [{ type: String }],
   },
+  comments: {
+    type: [{ userName: { type: String }, comment: { type: String } }],
+  },
   createdAt: {
     type: Date,
     default: Date.now,

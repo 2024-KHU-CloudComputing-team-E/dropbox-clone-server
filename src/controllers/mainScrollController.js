@@ -1,4 +1,5 @@
 import File from "../schemas/file.js";
+import path from "path";
 
 const ITEMS_PER_PAGE = 10; // 페이지당 항목 수를 정의합니다.
 

@@ -50,7 +50,7 @@ const getUserImages = async (req, res) => {
           item.type == ".jpeg"
         ) {
           // thumbnail = `https://instabox-source-bucket2.s3.ap-northeast-2.amazonaws.com/thumbnails/${item.fileName}`;
-          thumbnail = item.imageUrl;
+          thumbnail = `${process.env.HOST_ADDRESS}/api/thumbnail/${item._id}`;
         } else if (item.type == ".pdf") {
           thumbnail =
             "https://instabox-source-bucket2.s3.ap-northeast-2.amazonaws.com/thumbnails/pdfThumbnail.png";

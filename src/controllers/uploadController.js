@@ -41,7 +41,7 @@ const uploadController = {
     });
     const stream = response.data;
     const formData = new FormData();
-    let ai_labels = "";
+    let ai_labels = [];
     formData.append("file", stream);
     const source = axios.CancelToken.source();
     const timeout = setTimeout(() => {
@@ -56,7 +56,7 @@ const uploadController = {
         cancelToken: source.token,
       });
       if (flaskResponse.data.ai_labels.length() > 0) {
-        ai_labels = flaskResponse.data.ai_labels[0];
+        ai_labels = flaskResponse.data.ai_labels;
       }
 
       try {

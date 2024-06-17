@@ -23,7 +23,7 @@ const fileSchema = new mongoose.Schema({
     required: true,
   },
   aiType: {
-    type: String,
+    type: [{ type: String }],
   },
   createdAt: {
     type: Date,

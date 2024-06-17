@@ -46,9 +46,9 @@ const getUserImages = async (req, res) => {
     // 정렬 결과 확인
     console.log("Sorted Contents:", sortedDocuments);
     let tog;
-    for (let i = 0; i < sortedDocuments.length(); i++) {
+    for (let i = 0; i < sortedDocuments.length; i++) {
       tog = false;
-      for (let j = 0; j < sortedDocuments[i].aiType.length(); j++) {
+      for (let j = 0; j < sortedDocuments[i].aiType.length; j++) {
         if (sortedDocuments[i].aiType[j] == filter) {
           tog = true;
         }

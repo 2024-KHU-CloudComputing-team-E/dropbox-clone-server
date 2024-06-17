@@ -69,6 +69,7 @@ const uploadController = {
           aiType: ai_labels,
           createdAt: new Date(),
         });
+        console.log(req.file);
         await newFile.save();
         res.send("File uploaded in S3 and saved to mongodb successfully.");
       } catch (e) {

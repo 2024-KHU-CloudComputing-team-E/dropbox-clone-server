@@ -15,7 +15,7 @@ thumbnailRouter.get("/:fileName", (req, res) => {
   res.sendFile(path.join(__dirname, `./thumbnails/${baseName}.jpg`));
 });
 
-thumbnailRouter.post("/thumbnail", (req, res) => {
+thumbnailRouter.post("/", (req, res) => {
   const imagePath = path.join(__dirname, `./thumbnails/${Date.now()}.jpg`);
   console.log(imagePath);
   fs.writeFile(imagePath, req.body, (err) => {

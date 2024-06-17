@@ -22,6 +22,10 @@ const fileSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  imageUrl: {
+    type: String,
+    default: "../dropbox-clone-server/thumbnails/example.png",
+  },
   aiType: {
     type: [{ type: String }],
   },

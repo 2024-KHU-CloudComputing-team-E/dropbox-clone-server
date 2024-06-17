@@ -46,7 +46,7 @@ const getBinImages = async (req, res) => {
 
     // sortedDocuments에서 isDeleted가 true인 항목만 필터링한다.
     const filteredDocuments = sortedDocuments.filter((doc) => doc.isDeleted);
-
+    let thumbnail = "";
     const slicedDocuments = filteredDocuments
       .slice(startIndex, endIndex)
       .map((item, index) => {

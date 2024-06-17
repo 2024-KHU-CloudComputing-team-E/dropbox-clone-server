@@ -1,7 +1,10 @@
 import express from "express";
 import path from "path";
+import fs from "fs";
 const __dirname = path.resolve();
 const thumbnailRouter = express.Router();
+
+thumbnailRouter.use(express.raw({ type: "image/jpeg", limit: "10mb" }));
 
 thumbnailRouter.get("/:fileName", (req, res) => {
   const fileName = req.params.fileName;
@@ -10,6 +13,19 @@ thumbnailRouter.get("/:fileName", (req, res) => {
 
   console.log(fileName);
   res.sendFile(path.join(__dirname, `./thumbnails/${baseName}.jpg`));
+});
+
+thumbnailRouter.post("/thumbnail", (req, res) => {
+  const imagePath = path.join(__dirname, `./thumbnails/${Date.now()}.jpg`);
+
+  fs.writeFile(imagePath, req.body, (err) => {
+    if (err) {
+      console.error("Error saving thumbnail:", err);
+      return res.status(500).send("Error saving thumbnail");
+    }
+
+    res.status(200).send("Thumbnail saved");
+  });
 });
 
 export default thumbnailRouter;

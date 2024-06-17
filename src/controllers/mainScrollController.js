@@ -50,10 +50,14 @@ const getUserImages = async (req, res) => {
           item.type == ".jpeg"
         ) {
           // thumbnail = `https://instabox-source-bucket2.s3.ap-northeast-2.amazonaws.com/thumbnails/${item.fileName}`;
-          thumbnail = `${process.env.HOST_ADDRESS}/api/thumbnail/${Buffer.from(
-            item.fileName,
-            "latin1"
-          ).toString("utf8")}`;
+          const ext = path.extname(item.fileName); // 파일 확장자
+          const fileName = path.basename(
+            Buffer.from(item.fileName, "latin1").toString("utf8"),
+            ext
+          );
+          thumbnail = `${process.env.HOST_ADDRESS}/api/thumbnail/${
+            fileName + ext
+          }`;
         } else if (item.type == ".pdf") {
           thumbnail = `${process.env.HOST_ADDRESS}/api/thumbnail/pdfThumbnail.jpg`;
         } else if (item.type == ".hwp") {

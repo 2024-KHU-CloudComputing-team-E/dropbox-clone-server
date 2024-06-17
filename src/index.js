@@ -29,15 +29,8 @@ app.use("/api/downloadFile", downloadRouter);
 app.use("/api/file", fileinfoRouter);
 app.use("/api/search", searchRouter);
 
-// app.get("/", (req, res) => {
-//   // res.send(`<a href="/api/login/google'>LogIn</a>
-//   // `);
-//   res.send(`<h1>Login</h2>
-//   <a href='/api/login/google'>Login</a>
-//   `);
-// });
-
-app.use(express.static(path.join(__dirname, "../dropbox-clone-client/build")));
+//app.use(express.static(path.join(__dirname, "../dropbox-clone-client/build")));
+app.use(express.static(__dirname));
 
 app.get("*", (req, res) => {
   res.sendFile(

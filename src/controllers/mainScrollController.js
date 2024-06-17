@@ -1,10 +1,17 @@
+import { sanitizeFilter } from "mongoose";
 import File from "../schemas/file.js";
 import path from "path";
 
 const ITEMS_PER_PAGE = 10; // 페이지당 항목 수를 정의합니다.
 
 const getUserImages = async (req, res) => {
-  const { userId, page = 0, sortKey = "date", sortOrder = "desc" } = req.query;
+  const {
+    userId,
+    page = 0,
+    sortKey = "date",
+    sortOrder = "desc",
+    filter = "",
+  } = req.query;
 
   const startIndex = page * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
@@ -12,6 +19,7 @@ const getUserImages = async (req, res) => {
   // 이름순 정렬
   try {
     let sortedDocuments = [];
+
     if (sortKey == "name") {
       if (sortOrder == "asc") {
         sortedDocuments = await File.find({ owner: userId }).sort({
@@ -37,6 +45,18 @@ const getUserImages = async (req, res) => {
     }
     // 정렬 결과 확인
     console.log("Sorted Contents:", sortedDocuments);
+    let tog;
+    for (let i = 0; i < sortedDocuments.length(); i++) {
+      tog = false;
+      for (let j = 0; j < sortedDocuments[i].aiType.length(); j++) {
+        if (sortedDocuments[i].aiType[j] == filter) {
+          tog = true;
+        }
+      }
+      if (tog == false) {
+        sortedDocuments.splice(i, 1);
+      }
+    }
 
     // sortedDocuments에서 isDeleted가 false인 항목만 필터링한다.
     const filteredDocuments = sortedDocuments.filter((doc) => !doc.isDeleted);

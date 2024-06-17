@@ -7,7 +7,7 @@ thumbnailRouter.get("/:fileName", (req, res) => {
   const fileName = req.params.fileName;
 
   console.log(fileName);
-  res.sendFile(path.join(__dirname, `./thumbnails/${fileName + ext}`));
+  res.sendFile(path.join(__dirname, `./thumbnails/${fileName}`));
 });
 
 export default thumbnailRouter;

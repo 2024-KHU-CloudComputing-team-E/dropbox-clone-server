@@ -13,6 +13,7 @@ import binScrollRouter from "./routers/binScrollRouter.js";
 import downloadRouter from "./routers/downloadRouter.js";
 import fileinfoRouter from "./routers/fileinfoRouter.js";
 import searchRouter from "./routers/searchRouter.js";
+import thumbnailRouter from "./routers/thumbnailRouter.js";
 
 const __dirname = path.resolve();
 
@@ -28,9 +29,9 @@ app.use("/api/RecycleBin", binScrollRouter);
 app.use("/api/downloadFile", downloadRouter);
 app.use("/api/file", fileinfoRouter);
 app.use("/api/search", searchRouter);
+app.use("/api/thumbnail", thumbnailRouter);
 
-//app.use(express.static(path.join(__dirname, "../dropbox-clone-client/build")));
-app.use(express.static(__dirname));
+app.use(express.static(path.join(__dirname, "../dropbox-clone-client/build")));
 
 app.get("*", (req, res) => {
   res.sendFile(

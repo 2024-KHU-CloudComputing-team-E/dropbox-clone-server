@@ -44,20 +44,18 @@ const getUserImages = async (req, res) => {
       }
     }
     // 정렬 결과 확인
-    console.log("Sorted Contents:", sortedDocuments);
-    let tog;
-    for (let i = 0; i < sortedDocuments.length; i++) {
-      tog = false;
+    for (let i = sortedDocuments.length - 1; i >= 0; i--) {
+      let tog = false;
       for (let j = 0; j < sortedDocuments[i].aiType.length; j++) {
         if (sortedDocuments[i].aiType[j] == filter) {
           tog = true;
+          break;
         }
       }
-      if (tog == false) {
+      if (!tog) {
         sortedDocuments.splice(i, 1);
       }
     }
-
     // sortedDocuments에서 isDeleted가 false인 항목만 필터링한다.
     const filteredDocuments = sortedDocuments.filter((doc) => !doc.isDeleted);
 

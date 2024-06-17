@@ -9,10 +9,12 @@ searchRouter.get("/:keyword", async (req, res) => {
     const userArray = await User.find({
       userName: new RegExp(req.params.keyword),
     });
+    /*
     const fileArray = await File.find({
       fileName: new RegExp(req.params.keyword),
     });
-    res.send({ users: userArray, files: fileArray });
+    */
+    res.send(userArray);
   } catch (err) {
     res.send(err);
   }

@@ -50,10 +50,26 @@ const getBinImages = async (req, res) => {
     const slicedDocuments = filteredDocuments
       .slice(startIndex, endIndex)
       .map((item, index) => {
+        if (
+          item.type == ".jpg" ||
+          item.type == ".png" ||
+          item.type == ".jpeg"
+        ) {
+          // thumbnail = `https://instabox-source-bucket2.s3.ap-northeast-2.amazonaws.com/thumbnails/${item.fileName}`;
+          thumbnail = `${process.env.HOST_ADDRESS}/api/thumbnail/${item.fileName}`;
+        } else if (item.type == ".pdf") {
+          thumbnail = `${process.env.HOST_ADDRESS}/api/thumbnail/pdfThumbnail.jpg`;
+        } else if (item.type == ".hwp") {
+          thumbnail = `${process.env.HOST_ADDRESS}/api/thumbnail/hwpThumbnail.jpg`;
+        } else if (item.type == ".docx") {
+          thumbnail = `${process.env.HOST_ADDRESS}/api/thumbnail/docxThumbnail.jpg`;
+        } else if (item.type == ".txt") {
+          thumbnail = `${process.env.HOST_ADDRESS}/api/thumbnail/txtThumbnail.jpg`;
+        }
         return {
           fileId: item._id,
           fileName: item.fileName,
-          imageUrl: item.url,
+          imageUrl: thumbnail,
         };
       });
     res.send(slicedDocuments);

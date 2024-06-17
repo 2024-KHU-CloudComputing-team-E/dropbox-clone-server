@@ -22,7 +22,7 @@ thumbnailRouter.post("/", (req, res) => {
   const imagePath = path.join(__dirname, `./thumbnails/${baseName}.jpg`);
   console.log(imagePath);
   console.log(req.body);
-  fs.writeFile(imagePath, req.body.image, (err) => {
+  fs.writeFileSync(imagePath, req.body.image, (err) => {
     if (err) {
       console.error("Error saving thumbnail:", err);
       return res.status(500).send("Error saving thumbnail");

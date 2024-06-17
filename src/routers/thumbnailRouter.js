@@ -19,6 +19,7 @@ thumbnailRouter.post("/", (req, res) => {
   const fileName = req.body.s3Key;
   const ext = path.extname(fileName);
   const baseName = path.basename(fileName, ext);
+  console.log(fileName);
   const imagePath = path.join(__dirname, `./thumbnails/${baseName}.jpg`);
   const buffer = Buffer.from(req.body.image, "base64");
   console.log(imagePath);

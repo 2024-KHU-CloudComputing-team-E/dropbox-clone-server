@@ -16,10 +16,13 @@ thumbnailRouter.get("/:fileName", (req, res) => {
 });
 
 thumbnailRouter.post("/", (req, res) => {
-  const imagePath = path.join(__dirname, `./thumbnails/${Date.now()}.jpg`);
+  const fileName = req.body.s3Key;
+  const ext = path.extname(fileName);
+  const baseName = path.basename(fileName, ext);
+  const imagePath = path.join(__dirname, `./thumbnails/${baseName}.jpg`);
   console.log(imagePath);
   console.log(req.body);
-  fs.writeFile(imagePath, req.body, (err) => {
+  fs.writeFile(imagePath, req.body.image, (err) => {
     if (err) {
       console.error("Error saving thumbnail:", err);
       return res.status(500).send("Error saving thumbnail");

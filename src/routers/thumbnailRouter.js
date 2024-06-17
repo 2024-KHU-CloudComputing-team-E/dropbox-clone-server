@@ -21,10 +21,9 @@ thumbnailRouter.post("/", (req, res) => {
   const baseName = path.basename(fileName, ext);
   const imagePath = path.join(__dirname, `./thumbnails/${baseName}.jpg`);
   const buffer = Buffer.from(req.body.image, "base64");
-  const decodedString = buffer.toString("utf-8");
   console.log(imagePath);
   console.log(req.body);
-  fs.writeFileSync(imagePath, decodedString, (err) => {
+  fs.writeFileSync(imagePath, buffer, (err) => {
     if (err) {
       console.error("Error saving thumbnail:", err);
       return res.status(500).send("Error saving thumbnail");

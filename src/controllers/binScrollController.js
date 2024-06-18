@@ -65,6 +65,8 @@ const getBinImages = async (req, res) => {
           thumbnail = `${process.env.HOST_ADDRESS}/api/thumbnail/docxThumbnail.jpg`;
         } else if (item.type == ".txt") {
           thumbnail = `${process.env.HOST_ADDRESS}/api/thumbnail/txtThumbnail.jpg`;
+        } else {
+          thumbnail = `${process.env.HOST_ADDRESS}/api/thumbnail/defaultThumbnail.jpg`;
         }
         return {
           fileId: item._id,

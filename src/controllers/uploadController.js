@@ -28,7 +28,7 @@ const upload = multer({
       }
     },
   }),
-  limits: 1000000000,
+  limits: { fileSize: 1024 * 1024 * 1024 },
 });
 
 const uploadController = {
@@ -63,7 +63,7 @@ const uploadController = {
         const newFile = new File({
           owner: req.user.userId,
           fileName: req.file.key,
-          size: req.file.size,
+          size: response.headers["content-length"],
           type: path.extname(req.file.originalname),
           url: req.file.location,
           aiType: ai_labels,
@@ -87,7 +87,7 @@ const uploadController = {
         const newFile = new File({
           owner: req.user.userId,
           fileName: req.file.key,
-          size: req.file.size,
+          size: response.headers["content-length"],
           type: path.extname(req.file.originalname),
           url: req.file.location,
           aiType: "",

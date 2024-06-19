@@ -102,7 +102,6 @@ async function deleteFileAndDocument(fileId) {
 
 //휴지통 비우기(전체삭제)
 async function deleteFileAndDocumentAll() {
-  console.log(req.user.userName, "delete 요청");
   try {
     // isDeleted가 true인 모든 문서 찾기
     const documents = await File.find({ isDeleted: true });

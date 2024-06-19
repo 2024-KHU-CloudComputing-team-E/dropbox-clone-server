@@ -67,6 +67,7 @@ async function deleteFileOnRecycleBin(req, res) {
 async function deleteFileAndDocument(req, fileId) {
   try {
     const document = await File.findOne({ _id: fileId });
+    console.log(document);
     await User.findOneAndUpdate(
       { userId: req.user.userId },
       {
@@ -104,7 +105,10 @@ async function deleteFileAndDocument(req, fileId) {
 async function deleteFileAndDocumentAll(req, res) {
   try {
     // isDeleted가 true인 모든 문서 찾기
-    const documents = await File.find({ isDeleted: true });
+    const documents = await File.find({
+      isDeleted: true,
+      owner: req.user.userId,
+    });
     console.log("휴지통비우기 documents : ", documents);
 
     //모든 documents 순회

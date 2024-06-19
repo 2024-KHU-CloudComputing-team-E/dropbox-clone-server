@@ -55,7 +55,7 @@ const uploadController = {
         },
         cancelToken: source.token,
       });
-      if (flaskResponse.data.ai_labels.length() > 0) {
+      if (flaskResponse.data.ai_labels.length > 0) {
         ai_labels = flaskResponse.data.ai_labels;
       }
 

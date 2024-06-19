@@ -95,7 +95,6 @@ async function deleteFileAndDocument(fileId) {
     } else {
       console.log("isDeleted가 true가 아니거나 문서가 존재하지 않습니다.");
     }
-    res.send("ok");
   } catch (error) {
     console.error("파일 영구삭제 중 오류 발생 deleteFileAndDocument:", error);
   }
@@ -116,10 +115,8 @@ async function deleteFileAndDocumentAll() {
 
       deleteFileAndDocument(objectId);
     });
-    res.send("ok");
   } catch (error) {
     console.error("휴지통 비우기 중 오류 발생:", error);
-    res.send("false");
   }
 }
 

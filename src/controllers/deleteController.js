@@ -113,7 +113,7 @@ async function deleteFileAndDocumentAll(req, res) {
 
     //모든 documents 순회
     documents.map(async (document) => {
-      const fileId = document.fileId;
+      const fileId = document._id;
       const objectId = new ObjectId(fileId);
 
       deleteFileAndDocument(req, objectId);

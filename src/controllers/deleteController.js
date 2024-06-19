@@ -65,7 +65,6 @@ async function deleteFileOnRecycleBin(req, res) {
 
 //휴지통에서 완전삭제할 파일을 s3/mongodb document 1개를 완전삭제하는 함수
 async function deleteFileAndDocument(fileId) {
-  console.log(req.user.userName, "delete 요청");
   try {
     const document = await File.findOne({ _id: fileId });
     await User.findOneAndUpdate(
@@ -96,6 +95,7 @@ async function deleteFileAndDocument(fileId) {
     } else {
       console.log("isDeleted가 true가 아니거나 문서가 존재하지 않습니다.");
     }
+    res.send("ok");
   } catch (error) {
     console.error("파일 영구삭제 중 오류 발생 deleteFileAndDocument:", error);
   }
@@ -103,6 +103,7 @@ async function deleteFileAndDocument(fileId) {
 
 //휴지통 비우기(전체삭제)
 async function deleteFileAndDocumentAll() {
+  console.log(req.user.userName, "delete 요청");
   try {
     // isDeleted가 true인 모든 문서 찾기
     const documents = await File.find({ isDeleted: true });
@@ -115,8 +116,10 @@ async function deleteFileAndDocumentAll() {
 
       deleteFileAndDocument(objectId);
     });
+    res.send("ok");
   } catch (error) {
     console.error("휴지통 비우기 중 오류 발생:", error);
+    res.send("false");
   }
 }
 

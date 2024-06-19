@@ -5,7 +5,9 @@ import {
   deleteFileAndDocumentAll,
   restore,
 } from "../controllers/deleteController.js";
+import cookieParser from "cookie-parser";
 const deleteRouter = express.Router();
+deleteRouter.use(cookieParser);
 
 deleteRouter.post("/moveFileToRecycleBin/:fileId", moveFileToRecycleBin);
 deleteRouter.post("/deleteFileOnRecycleBin/:fileId", deleteFileOnRecycleBin);

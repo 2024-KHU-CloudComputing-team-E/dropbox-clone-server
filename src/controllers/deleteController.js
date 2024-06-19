@@ -118,8 +118,10 @@ async function deleteFileAndDocumentAll(req, res) {
 
       deleteFileAndDocument(req, objectId);
     });
+    res.send("휴지통 비우기 완료");
   } catch (error) {
     console.error("휴지통 비우기 중 오류 발생:", error);
+    res.send("휴지통 비우기 실패");
   }
 }
 

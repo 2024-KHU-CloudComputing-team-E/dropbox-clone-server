@@ -65,8 +65,8 @@ async function deleteFileOnRecycleBin(req, res) {
 
 //휴지통에서 완전삭제할 파일을 s3/mongodb document 1개를 완전삭제하는 함수
 async function deleteFileAndDocument(fileId) {
+  console.log(req.user.userName, "delete 요청");
   try {
-    console.log(req.user.userName, "delete 요청");
     const document = await File.findOne({ _id: fileId });
     await User.findOneAndUpdate(
       { userId: req.user.userId },
